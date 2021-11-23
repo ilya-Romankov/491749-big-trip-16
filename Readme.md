@@ -1,7 +1,7 @@
 # Проект «Большое путешествие»
 
 * Студент: [Илья Романков](https://up.htmlacademy.ru/ecmascript/16/user/491749).
-* Наставник: `Неизвестно`.
+* Наставник: [Артем Рудов](https://htmlacademy.ru/profile/artrudov).
 
 ---
 
