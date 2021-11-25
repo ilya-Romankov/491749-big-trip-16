@@ -1,4 +1,4 @@
-export const createPointPath = () => (
+export const createPointPathTemplate = () => (
   `<li class="trip-events__item">
     <div class="event">
       <time class="event__date" dateTime="2019-03-18">MAR 18</time>

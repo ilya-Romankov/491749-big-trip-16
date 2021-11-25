@@ -1,47 +1,33 @@
-//ui elements
-import { createMenuTemplate } from './view/menu';
+import { createNavigationTemplate } from './view/navigation';
 import { createFilterTemplate } from './view/filter';
-import { createPath } from './view/path';
+import { createPathTemplate } from './view/path';
 import { createSortTemplate } from './view/sort';
 import { createEventListTemplate } from './view/eventsList';
-import { createPointPath } from './view/pointPath';
-import { createEditPoint } from './view/editPoint';
-import { createNewPoint } from './view/newPoint';
+import { createPointPathTemplate } from './view/pointPath';
+import { createNewPointTemplate } from './view/newPoint';
+import { RenderPosition, renderTemplate } from './helpers/render';
+import { config } from './helpers/config';
 
-//helper functions
-import { RenderPosition, renderTemplate } from './render';
-const countPoint = 3;
-
-//main block
 const body = document.querySelector('.page-body');
 
-//render menu
-const siteMenuElement = body.querySelector('.trip-controls__navigation');
-renderTemplate(siteMenuElement, createMenuTemplate(), RenderPosition.BEFOREEND);
+const siteNavigationElement = body.querySelector('.trip-controls__navigation');
+renderTemplate(siteNavigationElement, createNavigationTemplate());
 
-//render filter
 const siteFiltersElement = body.querySelector('.trip-controls__filters');
-renderTemplate(siteFiltersElement, createFilterTemplate(), RenderPosition.BEFOREEND);
+renderTemplate(siteFiltersElement, createFilterTemplate());
 
-//render path and final cost
 const sitePathElement = body.querySelector('.trip-main');
-renderTemplate(sitePathElement, createPath(), RenderPosition.AFTERBEGIN);
+renderTemplate(sitePathElement, createPathTemplate(), RenderPosition.AFTER_BEGIN);
 
-//render sort
 const siteSortElement = body.querySelector('.trip-events');
-renderTemplate(siteSortElement, createSortTemplate(), RenderPosition.BEFOREEND);
+renderTemplate(siteSortElement, createSortTemplate());
 
-//render event container
-renderTemplate(siteSortElement, createEventListTemplate(), RenderPosition.BEFOREEND);
+renderTemplate(siteSortElement, createEventListTemplate());
 
-//render point path
-const siteListElement = body.querySelector('.trip-events__list ');
-for (let i = 0; i < countPoint; i++) {
-  renderTemplate(siteListElement, createPointPath(), RenderPosition.BEFOREEND);
+const listElement = body.querySelector('.trip-events__list');
+
+for (let i = 0; i < config.POINT_COUNT; i++) {
+  renderTemplate(listElement, createPointPathTemplate());
 }
 
-//render edit point
-renderTemplate(siteListElement, createEditPoint(), RenderPosition.AFTERBEGIN);
-
-//render add new point
-renderTemplate(siteListElement, createNewPoint(), RenderPosition.AFTERBEGIN);
+renderTemplate(listElement, createNewPointTemplate(), RenderPosition.AFTER_BEGIN);
