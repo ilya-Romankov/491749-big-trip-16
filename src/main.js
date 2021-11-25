@@ -5,8 +5,8 @@ import { createSortTemplate } from './view/sort';
 import { createEventListTemplate } from './view/eventsList';
 import { createPointPathTemplate } from './view/pointPath';
 import { createNewPointTemplate } from './view/newPoint';
-import { RenderPosition, renderTemplate } from './helpers/render';
-import { config } from './helpers/config';
+import { renderTemplate } from './helpers/render';
+import { RenderPosition, POINT_COUNT } from './constant';
 
 const body = document.querySelector('.page-body');
 
@@ -26,7 +26,7 @@ renderTemplate(siteSortElement, createEventListTemplate());
 
 const listElement = body.querySelector('.trip-events__list');
 
-for (let i = 0; i < config.POINT_COUNT; i++) {
+for (let i = 0; i < POINT_COUNT; i++) {
   renderTemplate(listElement, createPointPathTemplate());
 }
 
