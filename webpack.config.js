@@ -8,7 +8,7 @@ module.exports = {
   },
   devtool: 'source-map',
   devServer: {
-    hot: false
+    hot: true
   },
   module : {
     rules : [
