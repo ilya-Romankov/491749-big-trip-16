@@ -7,6 +7,9 @@ import { createPointPathTemplate } from './view/pointPath';
 import { createNewPointTemplate } from './view/newPoint';
 import { renderTemplate } from './helpers/render';
 import { RenderPosition, POINT_COUNT } from './constant';
+import { generatePoint } from './mock/pathPoint';
+
+const points = Array.from({length: POINT_COUNT}, generatePoint);
 
 const body = document.querySelector('.page-body');
 
@@ -27,7 +30,7 @@ renderTemplate(siteSortElement, createEventListTemplate());
 const listElement = body.querySelector('.trip-events__list');
 
 for (let i = 0; i < POINT_COUNT; i++) {
-  renderTemplate(listElement, createPointPathTemplate());
+  renderTemplate(listElement, createPointPathTemplate(points[i]));
 }
 
 renderTemplate(listElement, createNewPointTemplate(), RenderPosition.AFTER_BEGIN);
