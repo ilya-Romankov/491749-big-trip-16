@@ -91,11 +91,11 @@ const offer = {
 };
 
 export const  generatePoint = () => ({
-  'base_price': getRandomInteger(200, 700),
-  'date_from': getDate().DATE_FROM,
-  'date_to': getDate().DATE_TO,
+  'basePrice': getRandomInteger(200, 700),
+  'dateFrom': getDate().DATE_FROM,
+  'dateTo': getDate().DATE_TO,
   'destination': destination,
-  'is_favorite': Boolean(getRandomInteger(0, 1)),
+  'isFavorite': Boolean(getRandomInteger(0, 1)),
   'offers': offer,
   'type': generateType()
 }

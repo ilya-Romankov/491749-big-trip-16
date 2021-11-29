@@ -5,10 +5,10 @@ export const createPointPathTemplate = (point) => {
   const offers = point.offers.offers;
   const type = point.type;
   const destination = point.destination;
-  const price = point.base_price;
-  const dateToHours = dayjs(point.date_to).format('hh:m');
-  const dateFromDay = dayjs(point.date_from).format('MMM D');
-  const dateFromHours = dayjs(point.date_from).format('hh:m');
+  const price = point.basePrice;
+  const dateToHours = dayjs(point.dateTo).format('hh:m');
+  const dateFromDay = dayjs(point.dateFrom).format('MMM D');
+  const dateFromHours = dayjs(point.dateFrom).format('hh:m');
   const templateOffers = (obj) => (`<li class="event__offer">
           <span class="event__offer-title">${obj.title}</span>
           &plus;&euro;&nbsp;
@@ -16,11 +16,7 @@ export const createPointPathTemplate = (point) => {
         </li>`
   );
 
-  const renderOffers = () => {
-    offers.forEach((item) => {
-      templateOffers(item);
-    });
-  };
+  const renderOffers = (arrOffer) => arrOffer.map((item) => templateOffers(item)).join('');
 
   return `<li class="trip-events__item">
     <div class="event">
@@ -42,7 +38,7 @@ export const createPointPathTemplate = (point) => {
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        ${renderOffers()}
+        ${renderOffers(offers)}
       </ul>
       <button class="event__favorite-btn event__favorite-btn--active" type="button">
         <span class="visually-hidden">Add to favorite</span>

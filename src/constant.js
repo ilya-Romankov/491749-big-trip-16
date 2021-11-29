@@ -1,4 +1,4 @@
-export const POINT_COUNT = 3;
+export const POINT_COUNT = 15;
 
 export const RenderPosition = {
   BEFORE_BEGIN: 'beforebegin',

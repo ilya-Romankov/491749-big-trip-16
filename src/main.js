@@ -33,4 +33,4 @@ for (let i = 0; i < POINT_COUNT; i++) {
   renderTemplate(listElement, createPointPathTemplate(points[i]));
 }
 
-renderTemplate(listElement, createNewPointTemplate(), RenderPosition.AFTER_BEGIN);
+renderTemplate(listElement, createNewPointTemplate(points[0]), RenderPosition.AFTER_BEGIN);
