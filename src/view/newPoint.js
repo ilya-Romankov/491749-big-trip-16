@@ -1,4 +1,5 @@
-import { convertDateEditTemplate } from '../helpers/convertDate';
+import { convertDate } from '../helpers/date';
+import { DateFormat } from '../constant';
 
 const createImgTemplate = (path) => (
   `<img className="event__photo" src="${path}" alt="Event photo">`
@@ -137,10 +138,10 @@ export const createNewPointTemplate = (point = {}) => {
 
                   <div class="event__field-group  event__field-group--time">
                     <label class="visually-hidden" for="event-start-time-1">From</label>
-                    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${convertDateEditTemplate(dateFrom)}">
+                    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${convertDate(dateFrom, DateFormat.fullDate)}">
                     —
                     <label class="visually-hidden" for="event-end-time-1">To</label>
-                    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${convertDateEditTemplate(dateTo)}">
+                    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${convertDate(dateTo, DateFormat.fullDate)}">
                   </div>
 
                   <div class="event__field-group  event__field-group--price">

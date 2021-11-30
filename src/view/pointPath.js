@@ -1,22 +1,16 @@
-import dayjs from 'dayjs';
+import { convertDate } from '../helpers/date';
+import { DateFormat } from '../constant';
+import { createTemplateOffers } from './offers.js';
 
 export const createPointPathTemplate = (point) => {
-
+  const {type, destination, basePrice} = point;
   const offers = point.offers.offers;
-  const type = point.type;
-  const destination = point.destination;
-  const price = point.basePrice;
-  const dateToHours = dayjs(point.dateTo).format('hh:m');
-  const dateFromDay = dayjs(point.dateFrom).format('MMM D');
-  const dateFromHours = dayjs(point.dateFrom).format('hh:m');
-  const templateOffers = (obj) => (`<li class="event__offer">
-          <span class="event__offer-title">${obj.title}</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">${obj.price}</span>
-        </li>`
-  );
+  const dateToHours = convertDate(point.dateTo, DateFormat.HoursMinutes);
+  const dateFromDay = convertDate(point.dateFrom, DateFormat.dateMonth);
+  const dateFromHours = convertDate(point.dateFrom, DateFormat.HoursMinutes);
 
-  const renderOffers = (arrOffer) => arrOffer.map((item) => templateOffers(item)).join('');
+
+  const renderOffers = (offer) => offer.map(createTemplateOffers).join('');
 
   return `<li class="trip-events__item">
     <div class="event">
@@ -34,7 +28,7 @@ export const createPointPathTemplate = (point) => {
         <p class="event__duration">30M</p>
       </div>
       <p class="event__price">
-        &euro;&nbsp;<span class="event__price-value">${price}</span>
+        &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
