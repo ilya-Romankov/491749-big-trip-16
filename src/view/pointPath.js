@@ -1,29 +1,36 @@
-export const createPointPathTemplate = () => (
-  `<li class="trip-events__item">
+import { convertDate } from '../helpers/date';
+import { DateFormat } from '../constant';
+import { createTemplateOffers } from './offers.js';
+
+export const createPointPathTemplate = (point) => {
+  const {type, destination, basePrice} = point;
+  const offers = point.offers.offers;
+  const dateToHours = convertDate(point.dateTo, DateFormat.HOURS_MINUTES);
+  const dateFromDay = convertDate(point.dateFrom, DateFormat.DATE_MOUNTH);
+  const dateFromHours = convertDate(point.dateFrom, DateFormat.HOURS_MINUTES);
+  const renderOffers = (offer) => offer.map(createTemplateOffers).join('');
+
+  return `<li class="trip-events__item">
     <div class="event">
-      <time class="event__date" dateTime="2019-03-18">MAR 18</time>
+      <time class="event__date" dateTime="2019-03-18">${dateFromDay}</time>
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/taxi.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">Taxi Amsterdam</h3>
+      <h3 class="event__title">${type} ${destination.name}</h3>
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" dateTime="2019-03-18T10:30">10:30</time>
+          <time class="event__start-time" dateTime="2019-03-18T10:30">${dateFromHours}</time>
           &mdash;
-          <time class="event__end-time" dateTime="2019-03-18T11:00">11:00</time>
+          <time class="event__end-time" dateTime="2019-03-18T11:00">${dateToHours}</time>
         </p>
         <p class="event__duration">30M</p>
       </div>
       <p class="event__price">
-        &euro;&nbsp;<span class="event__price-value">20</span>
+        &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        <li class="event__offer">
-          <span class="event__offer-title">Order Uber</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">20</span>
-        </li>
+        ${renderOffers(offers)}
       </ul>
       <button class="event__favorite-btn event__favorite-btn--active" type="button">
         <span class="visually-hidden">Add to favorite</span>
@@ -36,5 +43,5 @@ export const createPointPathTemplate = () => (
         <span class="visually-hidden">Open event</span>
       </button>
     </div>
-  </li>`
-);
+  </li>`;
+};
