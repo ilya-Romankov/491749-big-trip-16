@@ -2,7 +2,7 @@ import { convertDate } from '../helpers/date';
 import { DateFormat } from '../constant';
 
 const createImgTemplate = (path) => (
-  `<img className="event__photo" src="${path}" alt="Event photo">`
+  `<img class="event__photo" src="${path}" alt="Event photo">`
 );
 
 const createDestinationTemplate = (destination) => {
