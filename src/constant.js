@@ -26,7 +26,7 @@ export const Offer = [
   'Cum sociis natoque penatibus et',
   'Donec quam felis, ultricies nec',
   'Nulla consequat massa quis enim.'
-]
+];
 
 export const City = [
   'Moscow',
