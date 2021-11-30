@@ -7,7 +7,7 @@ export const RenderPosition = {
   AFTER_END: 'afterend',
 };
 
-export const Description = [
+export const DESCRIPTION = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   'Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra.',
   'Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
@@ -18,7 +18,7 @@ export const Description = [
   'Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.'
 ];
 
-export const Offer = [
+export const OFFER = [
   'Upgrade to a business class',
   'Choose the radio station',
   'Lorem ipsum dolor sit amet',
@@ -28,7 +28,7 @@ export const Offer = [
   'Nulla consequat massa quis enim.'
 ];
 
-export const City = [
+export const CITY = [
   'Moscow',
   'Paris',
   'Roma',
@@ -37,7 +37,7 @@ export const City = [
   'Madrid'
 ];
 
-export const Type = [
+export const TYPE = [
   'Taxi',
   'Bus',
   'Train',
@@ -49,17 +49,19 @@ export const Type = [
   'Restaurant'
 ];
 
-export const RandomValue = {
-  StartDay: 1,
-  SecondDays: [3,7],
-  EndDay: 10,
-  StartPrice: 10,
-  EndPrice: 700,
-  RangePhoto: [1, 100]
+export const GeneratorsConfig = {
+  START_DAY: 1,
+  SECONDARY_START_DAY: 3,
+  SECONDARY_FINISH_DAY: 7,
+  END_DAY: 10,
+  START_PRICE: 10,
+  END_PRICE: 700,
+  START_PHOTO: 1,
+  END_PHOTO: 100
 };
 
 export const DateFormat = {
-  fullDate: 'd/MM/YY hh:mm',
-  HoursMinutes: 'hh:m',
-  dateMonth: 'MMM D'
+  FULL_DATE: 'DD/MM/YY hh:mm',
+  HOURS_MINUTES: 'hh:m',
+  DATE_MOUNTH: 'MMM D'
 };

@@ -5,4 +5,4 @@ export const getRandomInteger = (a = 0, b = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-export const getRandomIndex = (arr, startIndex) => arr[getRandomInteger(startIndex, arr.length - 1)];
+export const getRandomIndex = (arr, startIndex = 0) => arr[getRandomInteger(startIndex, arr.length - 1)];

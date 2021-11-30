@@ -29,7 +29,10 @@ renderTemplate(siteSortElement, createEventListTemplate());
 
 const listElement = body.querySelector('.trip-events__list');
 
-renderTemplate(listElement, createNewPointTemplate(points[0]), RenderPosition.AFTER_BEGIN);
-points.forEach((element) => {
+points.forEach((element, index) => {
+  if (index === 0) {
+    renderTemplate(listElement, createNewPointTemplate(element));
+  }
+
   renderTemplate(listElement, createPointPathTemplate(element));
 });

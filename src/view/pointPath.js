@@ -5,11 +5,9 @@ import { createTemplateOffers } from './offers.js';
 export const createPointPathTemplate = (point) => {
   const {type, destination, basePrice} = point;
   const offers = point.offers.offers;
-  const dateToHours = convertDate(point.dateTo, DateFormat.HoursMinutes);
-  const dateFromDay = convertDate(point.dateFrom, DateFormat.dateMonth);
-  const dateFromHours = convertDate(point.dateFrom, DateFormat.HoursMinutes);
-
-
+  const dateToHours = convertDate(point.dateTo, DateFormat.HOURS_MINUTES);
+  const dateFromDay = convertDate(point.dateFrom, DateFormat.DATE_MOUNTH);
+  const dateFromHours = convertDate(point.dateFrom, DateFormat.HOURS_MINUTES);
   const renderOffers = (offer) => offer.map(createTemplateOffers).join('');
 
   return `<li class="trip-events__item">
