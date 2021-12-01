@@ -1,6 +1,6 @@
 import { convertDate } from '../helpers/date';
 import { DateFormat } from '../constant';
-import {createElement} from "../helpers/render";
+import { createElement } from '../helpers/render';
 
 const createImgTemplate = (path) => (
   `<img class="event__photo" src="${path}" alt="Event photo">`
