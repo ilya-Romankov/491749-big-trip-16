@@ -1,3 +1,5 @@
+import { createElement } from '../helpers/render';
+
 export const createSortTemplate = () => (
   `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
     <div class="trip-sort__item  trip-sort__item--day">
@@ -31,3 +33,23 @@ export const createSortTemplate = () => (
     </div>
   </form>`
 );
+
+export default class Sort {
+  #element = null;
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createSortTemplate();
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}

@@ -65,3 +65,7 @@ export const DateFormat = {
   HOURS_MINUTES: 'hh:m',
   DATE_MOUNTH: 'MMM D'
 };
+
+export const KeyCode = {
+  ESC: 27
+};

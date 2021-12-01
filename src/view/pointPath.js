@@ -1,8 +1,9 @@
 import { convertDate } from '../helpers/date';
 import { DateFormat } from '../constant';
 import { createTemplateOffers } from './offers.js';
+import { createElement } from '../helpers/render';
 
-export const createPointPathTemplate = (point) => {
+const createPointPathTemplate = (point) => {
   const {type, destination, basePrice} = point;
   const offers = point.offers.offers;
   const dateToHours = convertDate(point.dateTo, DateFormat.HOURS_MINUTES);
@@ -45,3 +46,29 @@ export const createPointPathTemplate = (point) => {
     </div>
   </li>`;
 };
+
+export default class PointPath {
+  #element = null;
+  #point = null;
+
+  constructor(point) {
+    this.#point = point;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createPointPathTemplate(this.#point);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
+

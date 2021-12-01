@@ -1,9 +1,10 @@
 import { createElement } from '../helpers/render';
-const createEventListTemplate = () => (
-  '<ul class="trip-events__list"><ul/>'
+
+const createNoPointTemplate = () => (
+  '<p class="trip-events__msg">Click New Event to create your first point</p>'
 );
 
-export default class EventsList {
+export default class NoPoint {
   #element = null;
 
   get element() {
@@ -15,7 +16,7 @@ export default class EventsList {
   }
 
   get template() {
-    return createEventListTemplate();
+    return createNoPointTemplate();
   }
 
   removeElement() {

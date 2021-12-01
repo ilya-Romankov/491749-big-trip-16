@@ -1,38 +1,73 @@
-import { createNavigationTemplate } from './view/navigation';
-import { createFilterTemplate } from './view/filter';
-import { createPathTemplate } from './view/path';
-import { createSortTemplate } from './view/sort';
-import { createEventListTemplate } from './view/eventsList';
-import { createPointPathTemplate } from './view/pointPath';
-import { createNewPointTemplate } from './view/newPoint';
-import { renderTemplate } from './helpers/render';
-import { RenderPosition, POINT_COUNT } from './constant';
+import Navigation from './view/navigation';
+import Filters from './view/filter';
+import Path from './view/path';
+import Sort from './view/sort';
+import EventsList from './view/eventsList';
+import PointPath from './view/pointPath';
+import NewPoint from './view/newPoint';
+import NoPoint from './view/noPoints';
+import { renderElement, replaceElements } from './helpers/render';
+import { POINT_COUNT, RenderPosition, KeyCode } from './constant';
 import { generatePoint } from './mock/pathPoint';
+
 
 const points = Array.from({length: POINT_COUNT}, generatePoint);
 
 const body = document.querySelector('.page-body');
 
+const sitePathElement = body.querySelector('.trip-main');
+renderElement(sitePathElement, new Path().element, RenderPosition.AFTER_BEGIN);
+
 const siteNavigationElement = body.querySelector('.trip-controls__navigation');
-renderTemplate(siteNavigationElement, createNavigationTemplate());
+renderElement(siteNavigationElement, new Navigation().element);
 
 const siteFiltersElement = body.querySelector('.trip-controls__filters');
-renderTemplate(siteFiltersElement, createFilterTemplate());
+renderElement(siteFiltersElement, new Filters().element);
 
-const sitePathElement = body.querySelector('.trip-main');
-renderTemplate(sitePathElement, createPathTemplate(), RenderPosition.AFTER_BEGIN);
+const siteBoard = body.querySelector('.trip-events');
 
-const siteSortElement = body.querySelector('.trip-events');
-renderTemplate(siteSortElement, createSortTemplate());
+const renderPoint = (pointList, point) => {
+  const pointElement = new PointPath(point).element;
+  const newPointElement = new NewPoint(point).element;
+  const btnOpenEdit = pointElement.querySelector('.event__rollup-btn');
+  const form  = newPointElement.querySelector('.event--edit');
 
-renderTemplate(siteSortElement, createEventListTemplate());
+  const escKeyDown = (evt) => {
+    if (evt.keyCode === KeyCode.ESC) {
+      evt.preventDefault();
+      replaceElements(pointList, pointElement, newPointElement);
+    }
+  };
 
-const listElement = body.querySelector('.trip-events__list');
+  btnOpenEdit.addEventListener('click', () => {
+    replaceElements(pointList, newPointElement, pointElement);
+    document.addEventListener('keydown', escKeyDown);
+  });
 
-points.forEach((element, index) => {
-  if (index === 0) {
-    renderTemplate(listElement, createNewPointTemplate(element));
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    replaceElements(pointList, pointElement, newPointElement);
+    document.removeEventListener('keydown', escKeyDown);
+  });
+
+  renderElement(pointList, pointElement);
+};
+
+const renderBoard = (board, arr) => {
+  const listComponent = new EventsList().element;
+  const sortComponent = new Sort().element;
+  const noPointComponent = new NoPoint().element;
+
+  if (arr.length === 0) {
+    renderElement(board, noPointComponent);
+    return;
   }
 
-  renderTemplate(listElement, createPointPathTemplate(element));
-});
+  renderElement(board, sortComponent);
+  renderElement(board, listComponent);
+  arr.forEach((element) => {
+    renderPoint(listComponent, element);
+  });
+};
+
+renderBoard(siteBoard, points);
