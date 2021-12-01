@@ -6,7 +6,7 @@ import EventsList from './view/eventsList';
 import PointPath from './view/pointPath';
 import NewPoint from './view/newPoint';
 import NoPoint from './view/noPoints';
-import { renderElement, replaceElements } from './helpers/render';
+import { renderElement } from './helpers/render';
 import { POINT_COUNT, RenderPosition, KeyCode } from './constant';
 import { generatePoint } from './mock/pathPoint';
 
@@ -35,18 +35,18 @@ const renderPoint = (pointList, point) => {
   const escKeyDown = (evt) => {
     if (evt.keyCode === KeyCode.ESC) {
       evt.preventDefault();
-      replaceElements(pointList, pointElement, newPointElement);
+      pointList.replaceChild(pointElement, newPointElement);
     }
   };
 
   btnOpenEdit.addEventListener('click', () => {
-    replaceElements(pointList, newPointElement, pointElement);
+    pointList.replaceChild(newPointElement, pointElement);
     document.addEventListener('keydown', escKeyDown);
   });
 
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    replaceElements(pointList, pointElement, newPointElement);
+    pointList.replaceChild(pointElement, newPointElement);
     document.removeEventListener('keydown', escKeyDown);
   });
 

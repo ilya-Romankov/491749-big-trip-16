@@ -23,7 +23,3 @@ export const createElement = (template) => {
 
   return newElement.firstChild; // 3
 };
-
-export const replaceElements = (container, childTo, childFrom) => {
-  container.replaceChild(childTo, childFrom);
-};
