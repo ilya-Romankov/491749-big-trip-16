@@ -50,7 +50,17 @@ const createOfferTemplate = (offer) => {
            </section>`;
 };
 
-const createNewPointTemplate = (point = {}) => {
+const createIsEditBtn = (isEdit) => {
+  if (!isEdit) {
+    return '';
+  }
+
+  return `<button class="event__rollup-btn" type="button">
+              <span class="visually-hidden">Open event</span>
+           </button>`;
+};
+
+const createNewPointTemplate = (point = {}, isEdit = true) => {
   const {
     basePrice = '',
     dateFrom = '',
@@ -62,6 +72,7 @@ const createNewPointTemplate = (point = {}) => {
 
   const destinationTemplate = createDestinationTemplate(destination);
   const offerTemplate = createOfferTemplate(offers);
+  const isEditBtnTemplate = createIsEditBtn(isEdit);
 
   return `<li class="trip-events__item">
               <form class="event event--edit" action="#" method="post">
@@ -155,6 +166,7 @@ const createNewPointTemplate = (point = {}) => {
 
                   <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
                   <button class="event__reset-btn" type="reset">Cancel</button>
+                   ${isEditBtnTemplate}
                 </header>
                    ${offerTemplate}
                    ${destinationTemplate}
