@@ -1,4 +1,5 @@
 import { createElement } from '../helpers/render';
+
 const createEventListTemplate = () => (
   '<ul class="trip-events__list"><ul/>'
 );

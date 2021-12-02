@@ -1,9 +1,9 @@
 import { convertDate } from '../helpers/date';
-import { DateFormat } from '../constant';
 import { createElement } from '../helpers/render';
+import { DateFormat } from '../constant';
 
-const createImgTemplate = (path) => (
-  `<img class="event__photo" src="${path}" alt="Event photo">`
+const createImgTemplate = (src) => (
+  `<img class="event__photo" src="${src}" alt="Event photo">`
 );
 
 const createDestinationTemplate = (destination) => {

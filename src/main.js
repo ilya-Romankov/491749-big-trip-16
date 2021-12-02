@@ -1,5 +1,5 @@
 import Navigation from './view/navigation';
-import Filters from './view/filter';
+import FilterSection from './view/filter';
 import Path from './view/path';
 import Sort from './view/sort';
 import EventsList from './view/eventsList';
@@ -16,57 +16,87 @@ const points = Array.from({length: POINT_COUNT}, generatePoint);
 const body = document.querySelector('.page-body');
 
 const sitePathElement = body.querySelector('.trip-main');
-renderElement(sitePathElement, new Path().element, RenderPosition.AFTER_BEGIN);
+const path = new Path();
+
+renderElement(sitePathElement, path.element, RenderPosition.AFTER_BEGIN);
 
 const siteNavigationElement = body.querySelector('.trip-controls__navigation');
-renderElement(siteNavigationElement, new Navigation().element);
+const navigation = new Navigation();
 
+renderElement(siteNavigationElement, navigation.element);
+
+const filterSection =  new FilterSection();
 const siteFiltersElement = body.querySelector('.trip-controls__filters');
-renderElement(siteFiltersElement, new Filters().element);
+
+renderElement(siteFiltersElement, filterSection.element);
 
 const siteBoard = body.querySelector('.trip-events');
 
+
+let stateOpenComponent = null;
+let stateCloseComponent = null;
+
 const renderPoint = (pointList, point) => {
-  const pointElement = new PointPath(point).element;
-  const newPointElement = new NewPoint(point).element;
-  const btnOpenEdit = pointElement.querySelector('.event__rollup-btn');
-  const form  = newPointElement.querySelector('.event--edit');
+  const pointElement = new PointPath(point);
+  const newPointElement = new NewPoint(point);
+  const btnOpenEdit = pointElement.element.querySelector('.event__rollup-btn');
+  const form  = newPointElement.element.querySelector('.event--edit');
 
   const escKeyDown = (evt) => {
     if (evt.keyCode === KeyCode.ESC) {
       evt.preventDefault();
-      pointList.replaceChild(pointElement, newPointElement);
+      pointList.replaceChild(pointElement.element, newPointElement.element);
+      stateOpenComponent = null;
+      stateCloseComponent = null;
+      document.removeEventListener('keydown', escKeyDown);
     }
   };
-
-  btnOpenEdit.addEventListener('click', () => {
-    pointList.replaceChild(newPointElement, pointElement);
-    document.addEventListener('keydown', escKeyDown);
-  });
-
-  form.addEventListener('submit', (evt) => {
+  const switchToPathPoint = (evt) => {
     evt.preventDefault();
-    pointList.replaceChild(pointElement, newPointElement);
+    pointList.replaceChild(pointElement.element, newPointElement.element);
     document.removeEventListener('keydown', escKeyDown);
-  });
+    stateOpenComponent = null;
+    stateCloseComponent = null;
+  };
 
-  renderElement(pointList, pointElement);
+  const switchToFormEdit = () => {
+    if (stateOpenComponent === null) {
+      stateOpenComponent = newPointElement.element;
+      stateCloseComponent = pointElement.element;
+    } else {
+      pointList.replaceChild(stateCloseComponent, stateOpenComponent);
+      stateOpenComponent = newPointElement.element;
+      stateCloseComponent = pointElement.element;
+    }
+    pointList.replaceChild(newPointElement.element, pointElement.element);
+    document.addEventListener('keydown', escKeyDown);
+  };
+
+
+  btnOpenEdit.addEventListener('click', switchToFormEdit);
+
+  form.addEventListener('submit', switchToPathPoint);
+
+  renderElement(pointList, pointElement.element);
 };
 
 const renderBoard = (board, arr) => {
-  const listComponent = new EventsList().element;
-  const sortComponent = new Sort().element;
-  const noPointComponent = new NoPoint().element;
+  const listComponent = new EventsList();
+  const sortComponent = new Sort();
+
 
   if (arr.length === 0) {
-    renderElement(board, noPointComponent);
-    return;
+    const noPointComponent = new NoPoint().element;
+
+    return renderElement(board, noPointComponent);
   }
 
-  renderElement(board, sortComponent);
-  renderElement(board, listComponent);
+  renderElement(board, sortComponent.element);
+
+  renderElement(board, listComponent.element);
+
   arr.forEach((element) => {
-    renderPoint(listComponent, element);
+    renderPoint(listComponent.element, element);
   });
 };
 
