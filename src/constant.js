@@ -1,10 +1,10 @@
 export const POINT_COUNT = 15;
 
 export const RenderPosition = {
-  BEFORE_BEGIN: 'beforebegin',
-  AFTER_BEGIN: 'afterbegin',
-  BEFORE_END: 'beforeend',
-  AFTER_END: 'afterend',
+  BEFORE_BEGIN: 'before',
+  AFTER_BEGIN: 'prepend',
+  BEFORE_END: 'append',
+  AFTER_END: 'after',
 };
 
 export const DESCRIPTION = [
@@ -64,4 +64,8 @@ export const DateFormat = {
   FULL_DATE: 'DD/MM/YY hh:mm',
   HOURS_MINUTES: 'hh:m',
   DATE_MOUNTH: 'MMM D'
+};
+
+export const KeyCode = {
+  ESC: 27
 };

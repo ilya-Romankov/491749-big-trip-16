@@ -1,8 +1,9 @@
 import { convertDate } from '../helpers/date';
+import { createElement } from '../helpers/render';
 import { DateFormat } from '../constant';
 
-const createImgTemplate = (path) => (
-  `<img class="event__photo" src="${path}" alt="Event photo">`
+const createImgTemplate = (src) => (
+  `<img class="event__photo" src="${src}" alt="Event photo">`
 );
 
 const createDestinationTemplate = (destination) => {
@@ -49,7 +50,7 @@ const createOfferTemplate = (offer) => {
            </section>`;
 };
 
-export const createNewPointTemplate = (point = {}) => {
+const createNewPointTemplate = (point = {}) => {
   const {
     basePrice = '',
     dateFrom = '',
@@ -157,8 +158,32 @@ export const createNewPointTemplate = (point = {}) => {
                 </header>
                    ${offerTemplate}
                    ${destinationTemplate}
-
                 </section>
               </form>
             </li>`;
 };
+
+export default class NewPoint {
+  #element = null;
+  #point = null;
+
+  constructor(point) {
+    this.#point = point;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createNewPointTemplate(this.#point);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}

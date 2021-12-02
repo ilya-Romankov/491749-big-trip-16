@@ -1,3 +1,5 @@
+import { createElement } from '../helpers/render';
+
 export const createPathTemplate = () => (
   `<section class="trip-main__trip-info  trip-info">
     <div class="trip-info__main">
@@ -11,3 +13,23 @@ export const createPathTemplate = () => (
     </p>
   </section>`
 );
+
+export default class Path {
+  #element = null;
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createPathTemplate();
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
