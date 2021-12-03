@@ -32,7 +32,6 @@ renderElement(siteFiltersElement, filterSection.element);
 
 const siteBoard = body.querySelector('.trip-events');
 
-
 let stateOpenComponent = null;
 let stateCloseComponent = null;
 
@@ -40,6 +39,8 @@ const renderPoint = (pointList, point) => {
   const pointElement = new PointPath(point);
   const newPointElement = new NewPoint(point);
   const btnOpenEdit = pointElement.element.querySelector('.event__rollup-btn');
+  const btnCloseEdit = newPointElement.element.querySelector('.event__reset-btn');
+  const arrowCloseEdit = newPointElement.element.querySelector('.event__rollup-btn');
   const form  = newPointElement.element.querySelector('.event--edit');
 
   const escKeyDown = (evt) => {
@@ -51,6 +52,7 @@ const renderPoint = (pointList, point) => {
       document.removeEventListener('keydown', escKeyDown);
     }
   };
+
   const switchToPathPoint = (evt) => {
     evt.preventDefault();
     pointList.replaceChild(pointElement.element, newPointElement.element);
@@ -68,6 +70,7 @@ const renderPoint = (pointList, point) => {
       stateOpenComponent = newPointElement.element;
       stateCloseComponent = pointElement.element;
     }
+
     pointList.replaceChild(newPointElement.element, pointElement.element);
     document.addEventListener('keydown', escKeyDown);
   };
@@ -77,13 +80,18 @@ const renderPoint = (pointList, point) => {
 
   form.addEventListener('submit', switchToPathPoint);
 
+  btnCloseEdit.addEventListener('click', switchToPathPoint);
+
+  if (arrowCloseEdit) {
+    arrowCloseEdit.addEventListener('click', switchToPathPoint);
+  }
+
   renderElement(pointList, pointElement.element);
 };
 
 const renderBoard = (board, arr) => {
   const listComponent = new EventsList();
   const sortComponent = new Sort();
-
 
   if (arr.length === 0) {
     const noPointComponent = new NoPoint().element;
