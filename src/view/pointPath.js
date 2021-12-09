@@ -1,7 +1,7 @@
 import { convertDate } from '../helpers/date';
 import { DateFormat } from '../constant';
 import { createTemplateOffers } from './offers.js';
-import { createElement } from '../helpers/render';
+import AbstractView from './abstract';
 
 const createPointPathTemplate = (point) => {
   const {type, destination, basePrice} = point;
@@ -47,28 +47,26 @@ const createPointPathTemplate = (point) => {
   </li>`;
 };
 
-export default class PointPath {
-  #element = null;
+export default class PointPath extends AbstractView {
   #point = null;
 
   constructor(point) {
+    super();
     this.#point = point;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return createPointPathTemplate(this.#point);
   }
 
-  removeElement() {
-    this.#element = null;
+  setStateEditPoint = (callback) => {
+    this._callback.editClick = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editPointState);
+  }
+
+  #editPointState = (evt) => {
+    evt.preventDefault();
+    this._callback.editClick();
   }
 }
 

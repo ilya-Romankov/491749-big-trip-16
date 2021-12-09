@@ -1,4 +1,4 @@
-import { createElement } from '../helpers/render';
+import AbstractView from './abstract';
 
 export const createPathTemplate = () => (
   `<section class="trip-main__trip-info  trip-info">
@@ -14,22 +14,8 @@ export const createPathTemplate = () => (
   </section>`
 );
 
-export default class Path {
-  #element = null;
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
+export default class Path extends AbstractView {
   get template() {
     return createPathTemplate();
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
