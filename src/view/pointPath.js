@@ -52,6 +52,7 @@ export default class PointPath extends AbstractView {
 
   constructor(point) {
     super();
+
     this.#point = point;
   }
 
@@ -61,12 +62,11 @@ export default class PointPath extends AbstractView {
 
   setStateEditPoint = (callback) => {
     this._callback.editClick = callback;
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editPointState);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
   }
 
-  #editPointState = (evt) => {
+  #editClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.editClick();
   }
 }
-

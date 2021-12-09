@@ -181,6 +181,7 @@ export default class NewPoint extends AbstractView {
 
   constructor(point) {
     super();
+
     this.#point = point;
   }
 
@@ -190,22 +191,24 @@ export default class NewPoint extends AbstractView {
 
   setClickDefaultPoint = (callback) => {
     this._callback.defaultClick = callback;
+
     if (this.element.querySelector('.event__rollup-btn')) {
-      this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#defaultPointState);
+      this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#defaultStateClickHandler);
     }
-    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#defaultPointState);
+
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#defaultStateClickHandler);
   }
 
   setSubmitDefaultPoint = (callback) => {
     this._callback.defaultSubmit = callback;
-    this.element.querySelector('.event--edit').addEventListener('submit', this.#defaultPointStateSubmit);
+    this.element.querySelector('.event--edit').addEventListener('submit', this.#defaultStateFormHandler);
   }
 
-  #defaultPointState = () => {
+  #defaultStateClickHandler = () => {
     this._callback.defaultClick();
   }
 
-  #defaultPointStateSubmit = (evt) => {
+  #defaultStateFormHandler = (evt) => {
     evt.preventDefault();
     this._callback.defaultSubmit();
   }

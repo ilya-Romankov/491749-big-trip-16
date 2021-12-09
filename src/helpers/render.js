@@ -1,9 +1,10 @@
 import { RenderPosition } from '../constant';
 import AbstractView from '../view/abstract';
+import { isChildClass } from './predicate';
 
 export const renderElement = (container, element, place = RenderPosition.BEFORE_END) => {
-  const parent = container instanceof AbstractView ? container.element : container;
-  const child = element instanceof AbstractView ? element.element : element;
+  const parent = isChildClass(container, AbstractView)  ? container.element : container;
+  const child = isChildClass(element, AbstractView) ? element.element : element;
 
   parent[place](child);
 };
@@ -20,8 +21,8 @@ export const replace = (newElement, oldElement) => {
     throw new Error('Can\'t replace unexisting elements');
   }
 
-  const newChild = newElement instanceof AbstractView ? newElement.element : newElement;
-  const oldChild = oldElement instanceof AbstractView ? oldElement.element : oldElement;
+  const newChild = isChildClass(newElement, AbstractView) ? newElement.element : newElement;
+  const oldChild = isChildClass(oldElement, AbstractView) ? oldElement.element : oldElement;
 
   const parent = oldChild.parentElement;
 

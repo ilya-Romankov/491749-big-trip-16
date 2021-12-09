@@ -64,6 +64,7 @@ const renderPoint = (pointList, point) => {
       stateOpenComponent = newPointElement;
       stateCloseComponent = pointElement;
     }
+
     replace(newPointElement, pointElement);
   };
 
@@ -100,9 +101,8 @@ const renderBoard = (board, arr) => {
 
   renderElement(board, listComponent);
 
-  arr.forEach((element) => {
-    renderPoint(listComponent, element);
-  });
+  arr.forEach((element) => renderPoint(listComponent, element));
+
 };
 
 renderBoard(siteBoard, points);
