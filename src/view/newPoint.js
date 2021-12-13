@@ -1,6 +1,6 @@
 import { convertDate } from '../helpers/date';
-import { createElement } from '../helpers/render';
 import { DateFormat } from '../constant';
+import AbstractView from './abstract';
 
 const createImgTemplate = (src) => (
   `<img class="event__photo" src="${src}" alt="Event photo">`
@@ -55,9 +55,10 @@ const createIsEditBtn = (isEdit) => {
     return '';
   }
 
-  return `<button class="event__rollup-btn" type="button">
-              <span class="visually-hidden">Open event</span>
-           </button>`;
+  return (
+    `<button class="event__rollup-btn" type="button">
+        <span class="visually-hidden">Open event</span>
+     </button>`);
 };
 
 const createNewPointTemplate = (point = {}, isEdit = true) => {
@@ -175,27 +176,40 @@ const createNewPointTemplate = (point = {}, isEdit = true) => {
             </li>`;
 };
 
-export default class NewPoint {
-  #element = null;
+export default class NewPoint extends AbstractView {
   #point = null;
 
   constructor(point) {
+    super();
+
     this.#point = point;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return createNewPointTemplate(this.#point);
   }
 
-  removeElement() {
-    this.#element = null;
+  setClickDefaultPoint = (callback) => {
+    this._callback.defaultClick = callback;
+
+    if (this.element.querySelector('.event__rollup-btn')) {
+      this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#defaultStateClickHandler);
+    }
+
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#defaultStateClickHandler);
+  }
+
+  setSubmitDefaultPoint = (callback) => {
+    this._callback.defaultSubmit = callback;
+    this.element.querySelector('.event--edit').addEventListener('submit', this.#defaultStateFormHandler);
+  }
+
+  #defaultStateClickHandler = () => {
+    this._callback.defaultClick();
+  }
+
+  #defaultStateFormHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.defaultSubmit();
   }
 }

@@ -1,25 +1,11 @@
-import { createElement } from '../helpers/render';
+import AbstractView from './abstract';
 
 const createEventListTemplate = () => (
   '<ul class="trip-events__list"><ul/>'
 );
 
-export default class EventsList {
-  #element = null;
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
+export default class EventsList extends AbstractView {
   get template() {
     return createEventListTemplate();
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

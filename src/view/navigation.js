@@ -1,4 +1,4 @@
-import { createElement } from '../helpers/render';
+import AbstractView from './abstract';
 
 const createNavigationTemplate = () => (
   `<nav class="trip-controls__trip-tabs  trip-tabs">
@@ -7,22 +7,8 @@ const createNavigationTemplate = () => (
   </nav>`
 );
 
-export default class Navigation {
-  #element = null;
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
+export default class Navigation extends AbstractView {
   get template() {
     return createNavigationTemplate();
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
