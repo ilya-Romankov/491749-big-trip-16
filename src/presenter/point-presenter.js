@@ -50,11 +50,11 @@ export default class PointPresenter {
     if (prevPointElement === null || prevPointEditElement === null) {
       return renderElement(this.#pointContainer, this.#pointElement);
     }
-    //
+
     if (this.#pointContainer.element.contains(prevPointElement.element)) {
       replace(this.#pointElement, prevPointElement);
     }
-    //
+
     if (this.#pointContainer.element.contains(prevPointEditElement.element)) {
       replace(this.#newPointElement, prevPointEditElement);
     }
