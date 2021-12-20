@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { nanoid } from 'nanoid';
 import { CITY, TYPE, DESCRIPTION, OFFER, GeneratorsConfig } from '../constant';
 import { getRandomIndex, getRandomInteger } from '../helpers/random';
 
@@ -108,6 +109,7 @@ const generateNewOffer = () => [
 ];
 
 export const  generatePoint = () => ({
+  id: nanoid(),
   basePrice: getRandomInteger(GeneratorsConfig.START_PRICE, GeneratorsConfig.END_PRICE),
   dateFrom: getDate().dateFrom,
   dateTo: getDate().dateTo,

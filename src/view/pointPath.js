@@ -3,9 +3,12 @@ import { DateFormat } from '../constant';
 import { createTemplateOffers } from './offers.js';
 import AbstractView from './abstract';
 
+const isFavoriteCheck = (favorite) => favorite ? 'event__favorite-btn event__favorite-btn--active' : 'event__favorite-btn';
+
 const createPointPathTemplate = (point) => {
-  const {type, destination, basePrice} = point;
+  const {type, destination, basePrice, isFavorite} = point;
   const offers = point.offers.offers;
+  const favorite = isFavoriteCheck(isFavorite);
   const dateToHours = convertDate(point.dateTo, DateFormat.HOURS_MINUTES);
   const dateFromDay = convertDate(point.dateFrom, DateFormat.DATE_MOUNTH);
   const dateFromHours = convertDate(point.dateFrom, DateFormat.HOURS_MINUTES);
@@ -33,7 +36,7 @@ const createPointPathTemplate = (point) => {
       <ul class="event__selected-offers">
         ${renderOffers(offers)}
       </ul>
-      <button class="event__favorite-btn event__favorite-btn--active" type="button">
+      <button class="${favorite}" type="button">
         <span class="visually-hidden">Add to favorite</span>
         <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
           <path
@@ -68,5 +71,15 @@ export default class PointPath extends AbstractView {
   #editClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.editClick();
+  }
+
+  setFavoriteClickHandler = (callback) => {
+    this._callback.favoriteClick = callback;
+    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favoriteClickHandler);
+  }
+
+  #favoriteClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.favoriteClick();
   }
 }
