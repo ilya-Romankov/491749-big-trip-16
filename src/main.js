@@ -25,8 +25,8 @@ const siteFiltersElement = body.querySelector('.trip-controls__filters');
 
 const siteBoard = body.querySelector('.trip-events');
 
-const boardPresenter = new BoardPresenter(siteBoard, siteFiltersElement);
+const boardPresenter = new BoardPresenter(siteBoard, siteFiltersElement, points);
 
-boardPresenter.init(points);
+boardPresenter.init();
 
 

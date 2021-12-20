@@ -69,3 +69,8 @@ export const DateFormat = {
 export const KeyCode = {
   ESC: 27
 };
+
+export const Mode = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING'
+};

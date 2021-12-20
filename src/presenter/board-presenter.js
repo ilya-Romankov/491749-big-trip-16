@@ -15,27 +15,29 @@ export default class BoardPresenter {
   #noPointComponent = new NoPoint();
   #filterElement = new FilterSection();
 
-  #boardPoint = [];
+  #boardPoints = [];
   #pointPresenter = new Map();
 
 
-  constructor(boardContainer, filterContainer) {
+  constructor(boardContainer, filterContainer, boardPoints) {
+    this.#boardPoints = [...boardPoints];
     this.#boardContainer = boardContainer;
     this.#filterContainer = filterContainer;
   }
 
-  init = (boardPoint) => {
-    this.#boardPoint = [...boardPoint];
+  init = () => {
     this.#renderBoard();
   }
 
   #renderBoard = () => {
-    this.#renderBoardPoint();
+    this.#renderElementsBoard();
   }
 
-  #renderBoardPoint = () => {
-    if (this.#boardPoint.length === 0) {
-      return this.#renderNoPoint();
+  #renderElementsBoard = () => {
+    if (this.#boardPoints.length === 0) {
+      this.#renderFilter();
+      this.#renderNoPoint();
+      return;
     }
 
     this.#renderFilter();
@@ -54,11 +56,11 @@ export default class BoardPresenter {
   #renderEventList = () => {
     renderElement(this.#boardContainer,  this.#eventListComponent);
 
-    this.#boardPoint.forEach((element) => this.#renderPoint(this.#eventListComponent, element));
+    this.#boardPoints.forEach((element) => this.#renderPoint(this.#eventListComponent, element, this.#handleModeChange));
   }
 
-  #renderPoint = (pointList ,point) => {
-    const pointPresenter  = new PointPresenter(pointList, this.#handlePointChange);
+  #renderPoint = (pointList ,point, changeData) => {
+    const pointPresenter  = new PointPresenter(pointList, this.#handlePointChange, changeData);
     pointPresenter.init(point);
     this.#pointPresenter.set(point.id,  pointPresenter);
   }
@@ -73,8 +75,12 @@ export default class BoardPresenter {
   }
 
   #handlePointChange = (updatedPoint) => {
-    this.#boardPoint = updateItem(this.#boardPoint, updatedPoint);
+    this.#boardPoints = updateItem(this.#boardPoints, updatedPoint);
     this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
+  }
+
+  #handleModeChange = () => {
+    this.#pointPresenter.forEach((presenter) => presenter.resetView());
   }
 
 }

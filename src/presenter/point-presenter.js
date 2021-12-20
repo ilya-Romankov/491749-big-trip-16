@@ -2,20 +2,22 @@ import PointPath from '../view/pointPath';
 import NewPoint from '../view/newPoint';
 import {KeyCode} from '../constant';
 import { removeOrAddKeyDown } from '../helpers/predicate';
-import {remove, renderElement, replace} from '../helpers/render';
+import { remove, renderElement, replace } from '../helpers/render';
+import { Mode } from '../constant';
 
 export default class PointPresenter {
   #pointElement = null;
   #newPointElement = null;
   #point = null;
   #pointContainer = null;
-  #stateOpenComponent = null;
-  #stateCloseComponent = null;
   #changeData = null;
+  #changeMode = null;
+  #mode = Mode.DEFAULT;
 
-  constructor(container, changeData) {
+  constructor(container, changeData, changeMode) {
     this.#pointContainer = container;
     this.#changeData = changeData;
+    this.#changeMode = changeMode;
   }
 
   init = (point) => {
@@ -29,7 +31,6 @@ export default class PointPresenter {
 
     this.#pointElement.setStateEditPoint(() => {
       this.#switchToFormEdit();
-      removeOrAddKeyDown(this.#escKeyDown);
     });
 
     this.#pointElement.setFavoriteClickHandler(() => {
@@ -38,24 +39,21 @@ export default class PointPresenter {
 
     this.#newPointElement.setClickDefaultPoint(() => {
       this.#switchToPathPoint();
-      removeOrAddKeyDown(this.#escKeyDown, false);
     });
 
     this.#newPointElement.setSubmitDefaultPoint(() => {
       this.#switchToPathPoint();
-      removeOrAddKeyDown(this.#escKeyDown, false);
     });
-
 
     if (prevPointElement === null || prevPointEditElement === null) {
       return renderElement(this.#pointContainer, this.#pointElement);
     }
 
-    if (this.#pointContainer.element.contains(prevPointElement.element)) {
+    if (this.#mode === Mode.DEFAULT) {
       replace(this.#pointElement, prevPointElement);
     }
 
-    if (this.#pointContainer.element.contains(prevPointEditElement.element)) {
+    if (this.#mode === Mode.EDITING) {
       replace(this.#newPointElement, prevPointEditElement);
     }
 
@@ -68,33 +66,31 @@ export default class PointPresenter {
     remove(this.#newPointElement);
   }
 
+  resetView = () => {
+    if (this.#mode !== Mode.DEFAULT) {
+      this.#switchToPathPoint();
+    }
+  }
+
   #escKeyDown = (evt) => {
     if (evt.keyCode === KeyCode.ESC) {
       evt.preventDefault();
-      replace(this.#pointElement, this.#newPointElement);
-      this.#stateOpenComponent = this.#stateCloseComponent = null;
+      this.#switchToPathPoint();
       document.removeEventListener('keydown', this.#escKeyDown);
     }
   };
 
   #switchToPathPoint = () => {
     replace(this.#pointElement, this.#newPointElement);
-    this.#stateOpenComponent = this.#stateCloseComponent = null;
-  };
-
-  #reWriteState = () => {
-    this.#stateOpenComponent = this.#newPointElement;
-    this.#stateCloseComponent = this.#pointElement;
+    removeOrAddKeyDown(this.#escKeyDown, false);
+    this.#mode = Mode.DEFAULT;
   };
 
   #switchToFormEdit = () => {
-    if (this.#stateOpenComponent === null) {
-      this.#reWriteState();
-      return replace(this.#newPointElement, this.#pointElement);
-    }
-
-    replace(this.#stateCloseComponent, this.#stateOpenComponent);
-    this.#reWriteState();
+    replace(this.#newPointElement,this.#pointElement);
+    removeOrAddKeyDown(this.#escKeyDown);
+    this.#changeMode();
+    this.#mode = Mode.EDITING;
   };
 
   #handleFavoriteClick = () => {
