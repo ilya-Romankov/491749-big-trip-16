@@ -7,6 +7,7 @@ import BoardPresenter from './presenter/board-presenter';
 
 
 const points = Array.from({length: POINT_COUNT}, generatePoint);
+console.log(points);
 
 const body = document.querySelector('.page-body');
 
