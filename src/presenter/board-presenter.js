@@ -5,7 +5,6 @@ import NoPoint from '../view/noPoints';
 import { renderElement } from '../helpers/render';
 import { updateItem } from '../helpers/random';
 import PointPresenter from './point-presenter';
-import { compareValues } from '../helpers/sorting';
 import { SortParameters, SortValue } from '../constant';
 import { sortMethod } from '../helpers/sorting';
 
