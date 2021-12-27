@@ -51,9 +51,9 @@ export const TYPE = [
 
 export const GeneratorsConfig = {
   START_DAY: 1,
-  SECONDARY_START_DAY: 3,
-  SECONDARY_FINISH_DAY: 7,
-  END_DAY: 10,
+  SECONDARY_START_DAY: 5,
+  SECONDARY_FINISH_DAY: 10,
+  END_DAY: 15,
   START_PRICE: 10,
   END_PRICE: 700,
   START_PHOTO: 1,
@@ -73,4 +73,10 @@ export const KeyCode = {
 export const Mode = {
   DEFAULT: 'DEFAULT',
   EDITING: 'EDITING'
+};
+
+export const SortValue = {
+  SORT_DAY: 'sort-day',
+  SORT_TIME: 'sort-time',
+  SORT_PRICE: 'sort-price'
 };
