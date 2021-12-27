@@ -75,11 +75,6 @@ export const Mode = {
   EDITING: 'EDITING'
 };
 
-export const SortParameters = {
-  DATE_FROM: 'dateFrom',
-  BASE_PRICE: 'basePrice'
-};
-
 export const SortValue = {
   SORT_DAY: 'sort-day',
   SORT_TIME: 'sort-time',

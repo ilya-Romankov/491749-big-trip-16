@@ -1,29 +1,29 @@
 import FilterSection from '../view/filter';
-import Sort from '../view/sorts';
+import Sorts from '../view/sorts';
 import EventsList from '../view/eventsList';
 import NoPoint from '../view/noPoints';
 import { renderElement } from '../helpers/render';
 import { updateItem } from '../helpers/random';
 import PointPresenter from './point-presenter';
-import { SortParameters, SortValue } from '../constant';
-import { sortMethod } from '../helpers/sorting';
+import { Sort } from '../helpers/sorting';
+import { SortValue } from '../constant';
 
 export default class BoardPresenter {
   #boardContainer = null;
   #filterContainer = null;
 
-  #sortComponent = new Sort();
+  #sortComponent = new Sorts();
   #eventListComponent = new EventsList();
   #noPointComponent = new NoPoint();
   #filterElement = new FilterSection();
-  #currentSortParameter = SortParameters.DATE_FROM;
+  #currentSort = SortValue.SORT_DAY;
   #boardPoints = [];
   #srcBoardPoints = [];
   #pointPresenter = new Map();
 
 
   constructor(boardContainer, filterContainer, boardPoints) {
-    this.#boardPoints = [...boardPoints].sort((a, b) => sortMethod.SORT_DAY(a, b));
+    this.#boardPoints = [...boardPoints].sort(Sort[SortValue.SORT_DAY]);
     this.#boardContainer = boardContainer;
     this.#filterContainer = filterContainer;
   }
@@ -91,30 +91,16 @@ export default class BoardPresenter {
   }
 
   #handleSortTypeChange = (sortType) => {
-    if (this.currentSortParameter === sortType) {
-      return;
-    }
-
     this.#sortPoint(sortType);
     this.#clearPointList();
     this.#renderEventList();
   }
 
-  #sortPoint = (sortType) => {
-    switch (sortType) {
-      case SortValue.SORT_DAY:
-        this.#boardPoints.sort((a, b) => sortMethod.SORT_DAY(a, b));
-        break;
-      case SortValue.SORT_PRICE:
-        this.#boardPoints.sort((a, b) => sortMethod.SORT_PRICE(a, b));
-        break;
-      case SortValue.SORT_TIME:
-        this.#boardPoints.sort((a, b) => sortMethod.SORT_TIME(a, b));
-        break;
-      default:
-        this.#boardPoints = this.#srcBoardPoints;
+  #sortPoint = (sort) => {
+    if (this.#currentSort === sort) {
+      return;
     }
-
-    this.#currentSortParameter = sortType;
+    this.#boardPoints.sort(Sort[sort]);
+    this.#currentSort = sort;
   }
 }

@@ -1,25 +1,19 @@
-import dayjs from 'dayjs';
-
-const getDiffTime = (point) => {
-  const dateTo = dayjs(point.dateFrom);
-  const dateFrom  = dayjs(point.dateTo);
-
-  return dateTo.diff(dateFrom);
-};
+import { getDiffTime } from './date';
+import { SortValue } from '../constant';
 
 const getSortDay = (firstPoint, secondPoint) => Math.sign(firstPoint.dateFrom - secondPoint.dateFrom);
 
-const getSortPrice = (firstPoint, secondPoint) => Math.sign(firstPoint.basePrice - secondPoint.basePrice) * -1;
+const getSortPrice = (firstPoint, secondPoint) => Math.sign(secondPoint.basePrice - firstPoint.basePrice);
 
 const getSortTime = (firstPoint, secondPoint) => {
-  const firstTime = getDiffTime(firstPoint);
-  const secondTime = getDiffTime(secondPoint);
+  const firstTime = getDiffTime(firstPoint.dateFrom, firstPoint.dateTo);
+  const secondTime = getDiffTime(secondPoint.dateFrom, secondPoint.dateTo);
 
-  return Math.sign(firstTime - secondTime) * -1;
+  return Math.sign(secondTime - firstTime);
 };
 
-export const sortMethod = {
-  SORT_DAY: getSortDay,
-  SORT_PRICE: getSortPrice,
-  SORT_TIME: getSortTime
+export const Sort = {
+  [SortValue.SORT_DAY]: getSortDay,
+  [SortValue.SORT_PRICE]: getSortPrice,
+  [SortValue.SORT_TIME]: getSortTime
 };
