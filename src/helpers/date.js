@@ -26,3 +26,4 @@ export const getDuration = (dateFrom, dateTo) => {
 
   return `${days} ${hours} ${minutes}`;
 };
+
