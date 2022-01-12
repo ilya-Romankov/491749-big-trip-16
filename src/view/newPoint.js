@@ -1,6 +1,17 @@
 import { convertDate } from '../helpers/date';
 import { DateFormat } from '../constant';
-import AbstractView from './abstract';
+import SmartView from './smart-view';
+import { CITY } from '../constant';
+
+
+const BLANK_POINT = {
+  basePrice: '',
+  dateFrom: '',
+  dateTo: '',
+  destination: null,
+  offers: null,
+  type: ''
+};
 
 const createImgTemplate = (src) => (
   `<img class="event__photo" src="${src}" alt="Event photo">`
@@ -27,7 +38,7 @@ const createOptionTemplate = (obj) => (
   ` <div class="event__offer-selector">
       <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-${obj.id}" type="checkbox"
              name="event-offer-luggage">
-        <label class="event__offer-label" htmlFor="event-offer-luggage-${obj.id}">
+        <label class="event__offer-label" for="event-offer-luggage-${obj.id}">
           <span class="event__offer-title">${obj.title}</span>
           +€&nbsp;
           <span class="event__offer-price">${obj.price}</span>
@@ -36,7 +47,7 @@ const createOptionTemplate = (obj) => (
 );
 
 const createOfferTemplate = (offer) => {
-  if (offer === null) {
+  if (offer === [] || offer === null) {
     return '';
   }
 
@@ -61,15 +72,11 @@ const createIsEditBtn = (isEdit) => {
      </button>`);
 };
 
-const createNewPointTemplate = (point = {}, isEdit = true) => {
-  const {
-    basePrice = '',
-    dateFrom = '',
-    dateTo = '',
-    destination = null,
-    offers = null,
-    type = ''
-  } = point;
+const createCityList = (cityList) => cityList.map((city) => `<option value="${city}"></option>`).join('');
+
+const createNewPointTemplate = (point, isEdit = true) => {
+
+  const {destination, offers, basePrice, dateTo, dateFrom, type} = point;
 
   const destinationTemplate = createDestinationTemplate(destination);
   const offerTemplate = createOfferTemplate(offers);
@@ -81,7 +88,7 @@ const createNewPointTemplate = (point = {}, isEdit = true) => {
                   <div class="event__type-wrapper">
                     <label class="event__type  event__type-btn" for="event-type-toggle-1">
                       <span class="visually-hidden">Choose event type</span>
-                      <img class="event__type-icon" width="17" height="17" src="img/icons/flight.png" alt="Event type icon">
+                      <img className="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
                     </label>
                     <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
@@ -143,9 +150,7 @@ const createNewPointTemplate = (point = {}, isEdit = true) => {
                     </label>
                     <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
                     <datalist id="destination-list-1">
-                      <option value="Amsterdam"></option>
-                      <option value="Geneva"></option>
-                      <option value="Chamonix"></option>
+                      ${createCityList(CITY)}
                     </datalist>
                   </div>
 
@@ -176,18 +181,58 @@ const createNewPointTemplate = (point = {}, isEdit = true) => {
             </li>`;
 };
 
-export default class NewPoint extends AbstractView {
-  #point = null;
+export default class NewPoint extends SmartView {
+  #destinations = null;
+  #offers = null;
 
-  constructor(point) {
+  constructor(point = BLANK_POINT, destinationAll, offerAll) {
     super();
 
-    this.#point = point;
+    this._data = point;
+    this.#destinations = destinationAll;
+    this.#offers = offerAll;
+    this.#setInnerHandler();
   }
 
   get template() {
-    return createNewPointTemplate(this.#point);
+    return createNewPointTemplate(this._data);
   }
+
+  #setInnerHandler = () => {
+    this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationToggleHandler);
+    this.element.querySelector('.event__type-list').addEventListener('click', this.#typeToggleHandler);
+  }
+
+  restoreHandlers = () => {
+    this.#setInnerHandler();
+    this.setClickDefaultPoint(this._callback.defaultClick);
+    this.setSubmitDefaultPoint(this._callback.defaultSubmit);
+  }
+
+
+  #destinationToggleHandler = (evt) => {
+    const destinationFind = this.#destinations.find((destination) => destination.name === evt.target.value);
+
+    if (!destinationFind) {
+      evt.target.setCustomValidity('Такого города нет');
+      return;
+    }
+
+    this.updateData({
+      destination: destinationFind
+    });
+  };
+
+  #typeToggleHandler = (evt) => {
+    if (evt.target.value) {
+      const findOffer = this.#offers.find((offer) => offer.type === evt.target.value);
+
+      this.updateData({
+        offers: findOffer,
+        type: findOffer.type
+      });
+    }
+  };
 
   setClickDefaultPoint = (callback) => {
     this._callback.defaultClick = callback;

@@ -4,6 +4,8 @@ import {KeyCode} from '../constant';
 import { removeOrAddKeyDown } from '../helpers/predicate';
 import { remove, renderElement, replace } from '../helpers/render';
 import { Mode } from '../constant';
+import { destinationAll } from '../mock/pathPoint';
+import { offerAll } from '../mock/pathPoint';
 
 export default class PointPresenter {
   #pointElement = null;
@@ -13,6 +15,8 @@ export default class PointPresenter {
   #changeData = null;
   #changeMode = null;
   #mode = Mode.DEFAULT;
+  #destination = null;
+  #offer = null;
 
   constructor(container, changeData, changeMode) {
     this.#pointContainer = container;
@@ -22,12 +26,14 @@ export default class PointPresenter {
 
   init = (point) => {
     this.#point = point;
+    this.#destination = destinationAll;
+    this.#offer = offerAll;
 
     const prevPointElement = this.#pointElement;
     const prevPointEditElement = this.#newPointElement;
 
     this.#pointElement = new PointPath(this.#point);
-    this.#newPointElement = new NewPoint(this.#point);
+    this.#newPointElement = new NewPoint(this.#point, this.#destination, this.#offer);
 
     this.#pointElement.setStateEditPoint(() => {
       this.#switchToFormEdit();
@@ -39,6 +45,7 @@ export default class PointPresenter {
 
     this.#newPointElement.setClickDefaultPoint(() => {
       this.#switchToPathPoint();
+      this.#newPointElement.reset(this.#point);
     });
 
     this.#newPointElement.setSubmitDefaultPoint(() => {
@@ -68,6 +75,7 @@ export default class PointPresenter {
 
   resetView = () => {
     if (this.#mode !== Mode.DEFAULT) {
+      this.init(this.#point);
       this.#switchToPathPoint();
     }
   }
@@ -76,6 +84,7 @@ export default class PointPresenter {
     if (evt.keyCode === KeyCode.ESC) {
       evt.preventDefault();
       this.#switchToPathPoint();
+      this.init(this.#point);
       document.removeEventListener('keydown', this.#escKeyDown);
     }
   };
@@ -84,6 +93,7 @@ export default class PointPresenter {
     replace(this.#pointElement, this.#newPointElement);
     removeOrAddKeyDown(this.#escKeyDown, false);
     this.#mode = Mode.DEFAULT;
+    this.init(this.#point);
   };
 
   #switchToFormEdit = () => {

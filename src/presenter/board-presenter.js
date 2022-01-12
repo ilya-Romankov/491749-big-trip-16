@@ -20,6 +20,7 @@ export default class BoardPresenter {
   #boardPoints = [];
   #srcBoardPoints = [];
   #pointPresenter = new Map();
+  #destination = null;
 
 
   constructor(boardContainer, filterContainer, boardPoints) {
