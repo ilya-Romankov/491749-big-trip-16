@@ -5,7 +5,6 @@ import { CITY } from '../constant';
 import flatpickr from 'flatpickr';
 
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
-import dayjs from 'dayjs';
 
 const BLANK_POINT = {
   basePrice: '',
@@ -242,7 +241,6 @@ export default class NewPoint extends SmartView {
         enableTime: true,
         defaultDate: this._data.dateTo,
         dateFormat: DateFormat.DATE_EDIT_POINT,
-        time_24hr: true,
         maxDate: this._data.dateTo,
         onChange: this.#dateFromChangeHandler,
         parseDate: (datestr, format) => convertDate(datestr, format)
@@ -255,7 +253,6 @@ export default class NewPoint extends SmartView {
       this.element.querySelector('.event__input--dateTo'),
       {
         enableTime: true,
-        time_24hr: true,
         defaultDate: this._data.dateTo,
         dateFormat: DateFormat.DATE_EDIT_POINT,
         minDate: this._data.dateFrom,
