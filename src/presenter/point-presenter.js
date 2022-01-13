@@ -33,7 +33,7 @@ export default class PointPresenter {
     const prevPointEditElement = this.#newPointElement;
 
     this.#pointElement = new PointPath(this.#point);
-    this.#newPointElement = new NewPoint(this.#point, this.#destination, this.#offer);
+    this.#newPointElement = new NewPoint(this.#destination, this.#offer, this.#point);
 
     this.#pointElement.setStateEditPoint(() => {
       this.#switchToFormEdit();
