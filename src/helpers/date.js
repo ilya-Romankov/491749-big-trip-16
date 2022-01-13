@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-
 export const convertDate = (date, format) => dayjs(date).format(format);
 
 export const getDiffTime = (dateFrom, dateTo) => {
@@ -12,12 +11,17 @@ export const getDiffTime = (dateFrom, dateTo) => {
 //Функция будет еще дорабатыватьсся, сейчас сделана только проверки праивльности сортировки
 export const getDuration = (dateFrom, dateTo) => {
   const ms = getDiffTime(dateFrom, dateTo);
+
   let days = '';
   let hours = '';
   const minutes = `${convertDate(ms,'mm')}M`;
 
   if (convertDate(ms, 'DD') !== '00') {
     days = `${convertDate(ms, 'DD')}D`;
+  }
+
+  if (convertDate(ms,'hh') === '00' && days !== '') {
+    hours = '00H';
   }
 
   if (convertDate(ms,'hh') !== '00') {

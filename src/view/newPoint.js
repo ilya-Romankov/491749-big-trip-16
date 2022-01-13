@@ -2,7 +2,9 @@ import { convertDate } from '../helpers/date';
 import { DateFormat } from '../constant';
 import SmartView from './smart-view';
 import { CITY } from '../constant';
+import flatpickr from 'flatpickr';
 
+import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 
 const BLANK_POINT = {
   basePrice: '',
@@ -47,7 +49,7 @@ const createOptionTemplate = (obj) => (
 );
 
 const createOfferTemplate = (offer) => {
-  if (offer === [] || offer === null) {
+  if (offer.length === 0 || offer === null) {
     return '';
   }
 
@@ -156,10 +158,10 @@ const createNewPointTemplate = (point, isEdit = true) => {
 
                   <div class="event__field-group  event__field-group--time">
                     <label class="visually-hidden" for="event-start-time-1">From</label>
-                    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${convertDate(dateFrom, DateFormat.FULL_DATE)}">
+                    <input class="event__input event__input--dateFrom  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${convertDate(dateFrom, DateFormat.FULL_DATE)}">
                     —
                     <label class="visually-hidden" for="event-end-time-1">To</label>
-                    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${convertDate(dateTo, DateFormat.FULL_DATE)}">
+                    <input class="event__input event__input--dateTo  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${convertDate(dateTo, DateFormat.FULL_DATE)}">
                   </div>
 
                   <div class="event__field-group  event__field-group--price">
@@ -184,14 +186,17 @@ const createNewPointTemplate = (point, isEdit = true) => {
 export default class NewPoint extends SmartView {
   #destinations = null;
   #offers = null;
+  #datepickerDateTo = null;
+  #datepickerDateFrom = null;
 
-  constructor(point = BLANK_POINT, destinationAll, offerAll) {
+  constructor(destinationAll, offerAll, point = BLANK_POINT) {
     super();
 
     this._data = point;
     this.#destinations = destinationAll;
     this.#offers = offerAll;
     this.#setInnerHandler();
+    this.#setDatapicker();
   }
 
   get template() {
@@ -205,10 +210,69 @@ export default class NewPoint extends SmartView {
 
   restoreHandlers = () => {
     this.#setInnerHandler();
+    this.#setDatapicker();
     this.setClickDefaultPoint(this._callback.defaultClick);
     this.setSubmitDefaultPoint(this._callback.defaultSubmit);
   }
 
+  removeElement = () => {
+    super.removeElement();
+
+    if (this.#datepickerDateTo) {
+      this.#datepickerDateTo.destroy();
+      this.#datepickerDateTo = null;
+    }
+
+    if (this.#datepickerDateFrom) {
+      this.#datepickerDateFrom.destroy();
+      this.#datepickerDateFrom = null;
+    }
+  }
+
+  #setDatapicker = () => {
+    this.#setDatapickerDateFrom();
+    this.#setDatePickerDateTo();
+  }
+
+  #setDatapickerDateFrom = () => {
+    this.#datepickerDateFrom = flatpickr(
+      this.element.querySelector('.event__input--dateFrom'),
+      {
+        enableTime: true,
+        defaultDate: this._data.dateTo,
+        dateFormat: DateFormat.DATE_EDIT_POINT,
+        maxDate: this._data.dateTo,
+        onChange: this.#dateFromChangeHandler,
+        parseDate: (datestr, format) => convertDate(datestr, format)
+      }
+    );
+  }
+
+  #setDatePickerDateTo = () => {
+    this.#datepickerDateFrom = flatpickr(
+      this.element.querySelector('.event__input--dateTo'),
+      {
+        enableTime: true,
+        defaultDate: this._data.dateTo,
+        dateFormat: DateFormat.DATE_EDIT_POINT,
+        minDate: this._data.dateFrom,
+        onChange: this.#dateToChangeHandler,
+        parseDate: (datestr, format) => convertDate(datestr, format)
+      }
+    );
+  }
+
+  #dateFromChangeHandler = ([userDate]) => {
+    this.updateData({
+      dateFrom: userDate
+    });
+  }
+
+  #dateToChangeHandler = ([userDate]) => {
+    this.updateData({
+      dateTo: userDate
+    });
+  }
 
   #destinationToggleHandler = (evt) => {
     const destinationFind = this.#destinations.find((destination) => destination.name === evt.target.value);

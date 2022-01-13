@@ -33,7 +33,7 @@ export default class PointPresenter {
     const prevPointEditElement = this.#newPointElement;
 
     this.#pointElement = new PointPath(this.#point);
-    this.#newPointElement = new NewPoint(this.#point, this.#destination, this.#offer);
+    this.#newPointElement = new NewPoint(this.#destination, this.#offer, this.#point);
 
     this.#pointElement.setStateEditPoint(() => {
       this.#switchToFormEdit();
@@ -45,7 +45,7 @@ export default class PointPresenter {
 
     this.#newPointElement.setClickDefaultPoint(() => {
       this.#switchToPathPoint();
-      this.#newPointElement.reset(this.#point);
+      this.init(this.#point);
     });
 
     this.#newPointElement.setSubmitDefaultPoint(() => {
