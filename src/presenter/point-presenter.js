@@ -45,7 +45,7 @@ export default class PointPresenter {
 
     this.#newPointElement.setClickDefaultPoint(() => {
       this.#switchToPathPoint();
-      this.#newPointElement.reset(this.#point);
+      this.init(this.#point);
     });
 
     this.#newPointElement.setSubmitDefaultPoint(() => {

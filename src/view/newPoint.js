@@ -5,6 +5,7 @@ import { CITY } from '../constant';
 import flatpickr from 'flatpickr';
 
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
+import dayjs from 'dayjs';
 
 const BLANK_POINT = {
   basePrice: '',
@@ -239,9 +240,12 @@ export default class NewPoint extends SmartView {
       this.element.querySelector('.event__input--dateFrom'),
       {
         enableTime: true,
-        dateFormat: 'Y/m/d H:i',
+        defaultDate: this._data.dateTo,
+        dateFormat: DateFormat.DATE_EDIT_POINT,
+        time_24hr: true,
         maxDate: this._data.dateTo,
-        onChange: this.#dateFromChangeHandler
+        onChange: this.#dateFromChangeHandler,
+        parseDate: (datestr, format) => convertDate(datestr, format)
       }
     );
   }
@@ -251,9 +255,12 @@ export default class NewPoint extends SmartView {
       this.element.querySelector('.event__input--dateTo'),
       {
         enableTime: true,
-        dateFormat: 'Y/m/d H:i',
+        time_24hr: true,
+        defaultDate: this._data.dateTo,
+        dateFormat: DateFormat.DATE_EDIT_POINT,
         minDate: this._data.dateFrom,
-        onChange: this.#dateToChangeHandler
+        onChange: this.#dateToChangeHandler,
+        parseDate: (datestr, format) => convertDate(datestr, format)
       }
     );
   }

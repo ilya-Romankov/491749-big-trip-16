@@ -63,7 +63,8 @@ export const GeneratorsConfig = {
 export const DateFormat = {
   FULL_DATE: 'DD/MM/YY hh:mm',
   HOURS_MINUTES: 'hh:m',
-  DATE_MOUNTH: 'MMM D'
+  DATE_MOUNTH: 'MMM D',
+  DATE_EDIT_POINT: 'Y/m/d H:i'
 };
 
 export const KeyCode = {
