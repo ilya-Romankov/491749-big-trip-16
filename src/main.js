@@ -7,13 +7,7 @@ import BoardPresenter from './presenter/board-presenter';
 import PointModel from './model/point-model';
 import FilterModel from './model/filter-model';
 import FilterPresenter from './presenter/filter-presenter';
-import {offerAll} from './mock/pathPoint';
 
-const offerNew  = offerAll.reduce((acc,currentItem) => {
-  return {...acc, [currentItem.type]: currentItem.offers};
-}, {});
-
-console.log()
 const points = Array.from({length: POINT_COUNT}, generatePoint);
 
 const pointModel = new PointModel();

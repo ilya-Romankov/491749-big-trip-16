@@ -41,7 +41,7 @@ const createDestinationTemplate = (destination) => {
   </section>`;
 };
 
-const createOptionTemplate = (obj, offers, isEdit) => {
+const createOptionTemplate = (obj, offers) => {
   const isChecked = offers.includes(obj);
 
   return (` <div class="event__offer-selector">

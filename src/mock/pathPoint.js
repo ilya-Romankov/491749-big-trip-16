@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { nanoid } from 'nanoid';
-import { CITY, TYPE, DESCRIPTION, OFFER, GeneratorsConfig } from '../constant';
+import { CITY, DESCRIPTION, GeneratorsConfig } from '../constant';
 import { getRandomIndex, getRandomInteger } from '../helpers/random';
 
 const getDate = () => {
