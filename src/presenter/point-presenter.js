@@ -3,9 +3,9 @@ import NewPoint from '../view/newPoint';
 import {KeyCode} from '../constant';
 import { removeOrAddKeyDown } from '../helpers/predicate';
 import { remove, renderElement, replace } from '../helpers/render';
-import { Mode } from '../constant';
+import { Mode,UserAction, UpdateType } from '../constant';
 import { destinationAll } from '../mock/pathPoint';
-import { offerAll } from '../mock/pathPoint';
+import { reOffer } from '../helpers/re-offer';
 
 export default class PointPresenter {
   #pointElement = null;
@@ -27,30 +27,27 @@ export default class PointPresenter {
   init = (point) => {
     this.#point = point;
     this.#destination = destinationAll;
-    this.#offer = offerAll;
+    this.#offer = reOffer;
 
     const prevPointElement = this.#pointElement;
     const prevPointEditElement = this.#newPointElement;
 
     this.#pointElement = new PointPath(this.#point);
-    this.#newPointElement = new NewPoint(this.#destination, this.#offer, this.#point);
+    this.#newPointElement = new NewPoint(this.#destination, this.#offer, true, this.#point);
 
     this.#pointElement.setStateEditPoint(() => {
       this.#switchToFormEdit();
     });
 
-    this.#pointElement.setFavoriteClickHandler(() => {
-      this.#handleFavoriteClick();
-    });
+    this.#newPointElement.setDeleteClickHandler(this.#handleDeleteClick);
+    this.#pointElement.setFavoriteClickHandler(this.#handleFavoriteClick);
 
     this.#newPointElement.setClickDefaultPoint(() => {
-      this.#switchToPathPoint();
+      this.#switchToPathPoint(this.#point);
       this.init(this.#point);
     });
 
-    this.#newPointElement.setSubmitDefaultPoint(() => {
-      this.#switchToPathPoint();
-    });
+    this.#newPointElement.setFormSubmitHandler(this.#handleFormSubmit);
 
     if (prevPointElement === null || prevPointEditElement === null) {
       return renderElement(this.#pointContainer, this.#pointElement);
@@ -83,7 +80,7 @@ export default class PointPresenter {
   #escKeyDown = (evt) => {
     if (evt.keyCode === KeyCode.ESC) {
       evt.preventDefault();
-      this.#switchToPathPoint();
+      this.#switchToPathPoint(this.#point);
       this.init(this.#point);
       document.removeEventListener('keydown', this.#escKeyDown);
     }
@@ -103,7 +100,29 @@ export default class PointPresenter {
     this.#mode = Mode.EDITING;
   };
 
+  #handleFormSubmit = (update) => {
+    this.#changeData(
+      UserAction.UPDATE_POINT,
+      UpdateType.PATCH,
+      update,
+    );
+
+    this.#switchToPathPoint();
+  };
+
   #handleFavoriteClick = () => {
-    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite});
+    this.#changeData(
+      UserAction.UPDATE_POINT,
+      UpdateType.PATCH,
+      {...this.#point, isFavorite: !this.#point.isFavorite},
+    );
+  }
+
+  #handleDeleteClick = (point) => {
+    this.#changeData(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      point,
+    );
   }
 }

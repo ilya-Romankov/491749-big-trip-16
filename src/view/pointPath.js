@@ -5,15 +5,22 @@ import AbstractView from './abstract';
 import { getDuration } from '../helpers/date';
 
 const isFavoriteCheck = (favorite) => favorite ? 'event__favorite-btn event__favorite-btn--active' : 'event__favorite-btn';
+const renderOffers = (offer) => {
+  if (offer === null) {
+    return '';
+  }
+
+  return offer.map(createTemplateOffers).join('');
+};
 
 const createPointPathTemplate = (point) => {
   const {type, destination, basePrice, isFavorite} = point;
-  const offers = point.offers.offers;
+  const offers = point.offers ? point.offers.offers: null;
   const favorite = isFavoriteCheck(isFavorite);
   const dateToHours = convertDate(point.dateTo, DateFormat.HOURS_MINUTES);
   const dateFromDay = convertDate(point.dateFrom, DateFormat.DATE_MOUNTH);
   const dateFromHours = convertDate(point.dateFrom, DateFormat.HOURS_MINUTES);
-  const renderOffers = (offer) => offer.map(createTemplateOffers).join('');
+
   const duration = getDuration(point.dateFrom, point.dateTo);
 
   return `<li class="trip-events__item">

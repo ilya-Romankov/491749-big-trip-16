@@ -1109,87 +1109,18 @@ const destination = () => ({
   ]
 });
 
-const generateNewOffer = () => [
-  {
-    'type': getRandomIndex(TYPE),
-    'offers': [
-      {
-        'id': 1,
-        'title': getRandomIndex(OFFER),
-        'price': getRandomInteger(GeneratorsConfig.START_PRICE, GeneratorsConfig.END_PRICE),
-      }, {
-        'id': 2,
-        'title': getRandomIndex(OFFER),
-        'price': getRandomInteger(GeneratorsConfig.START_PRICE, GeneratorsConfig.END_PRICE),
-      }
-    ]
-  },
-  {
-    'type': getRandomIndex(TYPE),
-    'offers': [
-      {
-        'id': 1,
-        'title': getRandomIndex(OFFER),
-        'price': getRandomInteger(GeneratorsConfig.START_PRICE, GeneratorsConfig.END_PRICE),
-      }, {
-        'id': 2,
-        'title': getRandomIndex(OFFER),
-        'price': getRandomInteger(GeneratorsConfig.START_PRICE, GeneratorsConfig.END_PRICE),
-      }
-    ]
-  },
-  {
-    'type': getRandomIndex(TYPE),
-    'offers': [
-      {
-        'id': 1,
-        'title': getRandomIndex(OFFER),
-        'price': getRandomInteger(GeneratorsConfig.START_PRICE, GeneratorsConfig.END_PRICE),
-      }, {
-        'id': 2,
-        'title': getRandomIndex(OFFER),
-        'price': getRandomInteger(GeneratorsConfig.START_PRICE, GeneratorsConfig.END_PRICE),
-      }
-    ]
-  },
-  {
-    'type': getRandomIndex(TYPE),
-    'offers': [
-      {
-        'id': 1,
-        'title': getRandomIndex(OFFER),
-        'price': getRandomInteger(GeneratorsConfig.START_PRICE, GeneratorsConfig.END_PRICE),
-      }, {
-        'id': 2,
-        'title': getRandomIndex(OFFER),
-        'price': getRandomInteger(GeneratorsConfig.START_PRICE, GeneratorsConfig.END_PRICE),
-      }
-    ]
-  },
-  {
-    'type': getRandomIndex(TYPE),
-    'offers': [
-      {
-        'id': 1,
-        'title': getRandomIndex(OFFER),
-        'price': getRandomInteger(GeneratorsConfig.START_PRICE, GeneratorsConfig.END_PRICE),
-      }, {
-        'id': 2,
-        'title': getRandomIndex(OFFER),
-        'price': getRandomInteger(GeneratorsConfig.START_PRICE, GeneratorsConfig.END_PRICE),
-      }
-    ]
-  }
-];
+export const  generatePoint = () => {
+  const offer = getRandomIndex(offerAll);
 
-export const  generatePoint = () => ({
-  id: nanoid(),
-  basePrice: getRandomInteger(GeneratorsConfig.START_PRICE, GeneratorsConfig.END_PRICE),
-  dateFrom: getDate().dateFrom,
-  dateTo: getDate().dateTo,
-  destination: destination(),
-  isFavorite: Boolean(getRandomInteger(0, 1)),
-  offers:  getRandomIndex(generateNewOffer()),
-  type: getRandomIndex(TYPE)
-}
-);
+  return {
+    id: nanoid(),
+    basePrice: getRandomInteger(GeneratorsConfig.START_PRICE, GeneratorsConfig.END_PRICE),
+    dateFrom: getDate().dateFrom,
+    dateTo: getDate().dateTo,
+    destination: destination(),
+    isFavorite: Boolean(getRandomInteger(0, 1)),
+    offers: offer,
+    type: offer.type
+  };
+};
+
