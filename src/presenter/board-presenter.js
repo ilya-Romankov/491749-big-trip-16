@@ -1,13 +1,13 @@
-
 import Sorts from '../view/sorts';
 import EventsList from '../view/eventsList';
-import NoPoint from '../view/noPoints';
+import NoPoint from '../view/no-points';
 import { renderElement, remove } from '../helpers/render';
 import PointPresenter from './point-presenter';
 import PointNewPresenter from './new-point-presenter';
 import { Sort } from '../helpers/sorting';
-import { SortValue , UpdateType, UserAction, FilterType } from '../constant';
+import {SortValue, UpdateType, UserAction, FilterType, RenderPosition} from '../constant';
 import {filter} from '../helpers/filter';
+import Path from '../view/path';
 
 export default class BoardPresenter {
   #boardContainer = null;
@@ -17,15 +17,14 @@ export default class BoardPresenter {
   #noPointComponent = null;
 
   #currentSort = SortValue.SORT_DAY;
-  #boardPoints = [];
   #pointPresenter = new Map();
   #pointNewPresenter = null;
   #pointModel = null;
   #filterModel = null;
   #filterType = FilterType.ALL;
+  #path = null;
 
-  constructor(boardContainer, boardPoints, pointModel, filterModel) {
-    this.#boardPoints = [...boardPoints].sort(Sort[this.#currentSort]);
+  constructor(boardContainer, pointModel, filterModel) {
     this.#boardContainer = boardContainer;
     this.#pointModel = pointModel;
     this.#filterModel = filterModel;
@@ -88,11 +87,12 @@ export default class BoardPresenter {
     this.#pointPresenter.clear();
 
     remove(this.#sortComponent);
+    remove(this.#path);
+
 
     if (this.#noPointComponent) {
       remove(this.#noPointComponent);
     }
-
 
     if (resetSortType) {
       this.#currentSort = SortValue.SORT_DAY;
@@ -126,7 +126,7 @@ export default class BoardPresenter {
       this.#renderNoPoint();
       return;
     }
-
+    this.#renderPath();
     this.#renderSort();
     this.#renderEventList();
   }
@@ -140,6 +140,12 @@ export default class BoardPresenter {
   #renderEventList = () => {
     renderElement(this.#boardContainer,  this.#eventListComponent);
     this.points.forEach((element) => this.#renderPoint(this.#eventListComponent, element, this.#handleModeChange));
+  }
+
+  #renderPath = () => {
+    this.#path = new Path(this.points);
+    const sitePathElement = document.querySelector('.trip-main');
+    renderElement(sitePathElement,this.#path, RenderPosition.AFTER_BEGIN);
   }
 
   #renderPoint = (pointList ,point, changeData) => {

@@ -1,5 +1,5 @@
-import PointPath from '../view/pointPath';
-import NewPoint from '../view/newPoint';
+import PointPath from '../view/point-path';
+import NewPoint from '../view/new-point';
 import {KeyCode} from '../constant';
 import { removeOrAddKeyDown } from '../helpers/predicate';
 import { remove, renderElement, replace } from '../helpers/render';

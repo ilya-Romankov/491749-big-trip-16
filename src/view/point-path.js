@@ -3,6 +3,7 @@ import { DateFormat } from '../constant';
 import { createTemplateOffers } from './offers.js';
 import AbstractView from './abstract';
 import { getDuration } from '../helpers/date';
+import { getTotalPrice } from '../helpers/total-price';
 
 const isFavoriteCheck = (favorite) => favorite ? 'event__favorite-btn event__favorite-btn--active' : 'event__favorite-btn';
 const renderOffers = (offer) => {
@@ -16,6 +17,7 @@ const renderOffers = (offer) => {
 const createPointPathTemplate = (point) => {
   const {type, destination, basePrice, isFavorite} = point;
   const offers = point.offers ? point.offers.offers: null;
+  const totalPrice = getTotalPrice(basePrice, offers);
   const favorite = isFavoriteCheck(isFavorite);
   const dateToHours = convertDate(point.dateTo, DateFormat.HOURS_MINUTES);
   const dateFromDay = convertDate(point.dateFrom, DateFormat.DATE_MOUNTH);
@@ -39,7 +41,7 @@ const createPointPathTemplate = (point) => {
         <p class="event__duration">${duration}</p>
       </div>
       <p class="event__price">
-        &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
+        &euro;&nbsp;<span class="event__price-value">${totalPrice}</span>
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">

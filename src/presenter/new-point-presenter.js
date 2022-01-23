@@ -1,4 +1,4 @@
-import NewPoint from '../view/newPoint';
+import NewPoint from '../view/new-point';
 import {nanoid} from 'nanoid';
 import {remove, renderElement} from '../helpers/render';
 import {UserAction, UpdateType, RenderPosition} from '../constant';

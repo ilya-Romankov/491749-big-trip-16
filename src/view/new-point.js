@@ -9,7 +9,7 @@ import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 
 
 const BLANK_POINT = {
-  basePrice: 2,
+  basePrice: 0,
   dateFrom: dayjs().toDate(),
   dateTo: dayjs().toDate(),
   destination: '',
@@ -105,7 +105,7 @@ const createDeleteOrCancelBtn = (isEdit) => {
 const createCityList = (cityList) => cityList.map((city) => `<option value="${city.name}"></option>`).join('');
 
 const createNewPointTemplate = (point, distinationAll, isEdit, offer) => {
-  const {destination, offers, basePrice, dateTo, dateFrom, type} = point;
+  const {destination, offers, basePrice, dateTo, dateFrom, type, id} = point;
 
   const destinationTemplate = createDestinationTemplate(destination);
 
@@ -145,11 +145,11 @@ const createNewPointTemplate = (point, distinationAll, isEdit, offer) => {
                   </div>
 
                   <div class="event__field-group  event__field-group--time">
-                    <label class="visually-hidden" for="event-start-time-1">From</label>
-                    <input class="event__input event__input--dateFrom  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${convertDate(dateFrom, DateFormat.FULL_DATE)}">
+                    <label class="visually-hidden" for="event-start-time-${id}">From</label>
+                    <input class="event__input event__input--dateFrom  event__input--time" id="event-start-time-${id}" type="text" name="event-start-time" value="${convertDate(dateFrom, DateFormat.FULL_DATE)}">
                     —
-                    <label class="visually-hidden" for="event-end-time-1">To</label>
-                    <input class="event__input event__input--dateTo  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${convertDate(dateTo, DateFormat.FULL_DATE)}">
+                    <label class="visually-hidden" for="event-end-time-${id}">To</label>
+                    <input class="event__input event__input--dateTo  event__input--time" id="event-end-time-${id}" type="text" name="event-end-time" value="${convertDate(dateTo, DateFormat.FULL_DATE)}">
                   </div>
 
                   <div class="event__field-group  event__field-group--price">
@@ -258,7 +258,7 @@ export default class NewPoint extends SmartView {
       this.element.querySelector('.event__input--dateFrom'),
       {
         enableTime: true,
-        defaultDate: this._data.dateTo ,
+        defaultDate: this._data.dateFrom ,
         dateFormat: DateFormat.DATE_EDIT_POINT,
         maxDate: this._data.dateTo,
         onChange: this.#dateFromChangeHandler,
@@ -272,7 +272,7 @@ export default class NewPoint extends SmartView {
       this.element.querySelector('.event__input--dateTo'),
       {
         enableTime: true,
-        defaultDate: this._data.dateFrom,
+        defaultDate: this._data.dateTo,
         dateFormat: DateFormat.DATE_EDIT_POINT,
         minDate: this._data.dateFrom,
         onChange: this.#dateToChangeHandler,
