@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import {DateFormat, SortValue} from '../constant';
+import {Sort} from './sorting';
 export const convertDate = (date, format) => dayjs(date).format(format);
 
 export const getDiffTime = (dateFrom, dateTo) => {
@@ -8,7 +10,6 @@ export const getDiffTime = (dateFrom, dateTo) => {
   return to.diff(from);
 };
 
-//Функция будет еще дорабатыватьсся, сейчас сделана только проверки праивльности сортировки
 export const getDuration = (dateFrom, dateTo) => {
   const ms = getDiffTime(dateFrom, dateTo);
 
@@ -31,3 +32,24 @@ export const getDuration = (dateFrom, dateTo) => {
   return `${days} ${hours} ${minutes}`;
 };
 
+export const  isPastPoint = (currentDate, dateFromPoint) => dayjs().isAfter(dateFromPoint);
+
+export const getTotalDuration = (points) => {
+  if (points === null || points.length === 0) {
+    return null;
+  }
+
+  const sortPoints = [...points].sort(Sort[SortValue.SORT_DAY]);
+
+  const dateFrom = convertDate(sortPoints[0].dateFrom, DateFormat.MOUNTH_DAY);
+  let dateTo =  convertDate(sortPoints[0].dateTo, DateFormat.MOUNTH_DAY);
+
+  if (sortPoints.length > 1) {
+    dateTo = convertDate(sortPoints[sortPoints.length - 1].dateTo, DateFormat.MOUNTH_DAY);
+  }
+
+  return {
+    dateFrom: dateFrom,
+    dateTo: dateTo
+  };
+};

@@ -1,4 +1,6 @@
-export const POINT_COUNT = 15;
+export const POINT_COUNT = 2;
+
+export const NUMBER_FOR_FULL_PATH = 4;
 
 export const RenderPosition = {
   BEFORE_BEGIN: 'before',
@@ -50,10 +52,10 @@ export const TYPE = [
 ];
 
 export const GeneratorsConfig = {
-  START_DAY: 1,
-  SECONDARY_START_DAY: 5,
-  SECONDARY_FINISH_DAY: 10,
-  END_DAY: 15,
+  START_DAY: -5,
+  SECONDARY_START_DAY: 0,
+  SECONDARY_FINISH_DAY: 5,
+  END_DAY: 10,
   START_PRICE: 10,
   END_PRICE: 700,
   START_PHOTO: 1,
@@ -64,7 +66,8 @@ export const DateFormat = {
   FULL_DATE: 'DD/MM/YY hh:mm',
   HOURS_MINUTES: 'hh:m',
   DATE_MOUNTH: 'MMM D',
-  DATE_EDIT_POINT: 'Y/m/d H:i'
+  DATE_EDIT_POINT: 'Y/m/d H:i',
+  MOUNTH_DAY: 'D MMM'
 };
 
 export const KeyCode = {
@@ -80,4 +83,22 @@ export const SortValue = {
   SORT_DAY: 'sort-day',
   SORT_TIME: 'sort-time',
   SORT_PRICE: 'sort-price'
+};
+
+export const UserAction = {
+  UPDATE_POINT: 'UPDATE_PONT',
+  ADD_POINT: 'ADD_POINT',
+  DELETE_POINT: 'DELETE_POINT'
+};
+
+export const FilterType = {
+  ALL: 'all',
+  FUTURE: 'future',
+  PAST: 'past'
+};
+
+export const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
 };
