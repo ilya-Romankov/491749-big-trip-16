@@ -157,7 +157,7 @@ const createNewPointTemplate = (point, distinationAll, isEdit, offer) => {
                       <span class="visually-hidden">Price</span>
                       €
                     </label>
-                    <input class="event__input  event__input--price" required id="event-price-1" type="text" name="event-price" value="${basePrice}">
+                    <input class="event__input  event__input--price" required id="event-price-1" type="number" name="event-price" value="${basePrice}">
                   </div>
 
                   <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -198,11 +198,25 @@ export default class NewPoint extends SmartView {
   }
 
 
-  #setInnerHandler = () => {
-    this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationToggleHandler);
-    this.element.querySelector('.event__type-list').addEventListener('click', this.#typeToggleHandler);
-    if (this.element.querySelector('.event__available-offers')) {
-      this.element.querySelector('.event__available-offers').addEventListener('change', this.#setClickOfferHandler);
+  restoreHandlers = () => {
+    this.#setInnerHandler();
+    this.#setDatapicker();
+    this.setClickDefaultPoint(this._callback.defaultClick);
+    this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setDeleteClickHandler(this._callback.deleteClick);
+  }
+
+  removeElement = () => {
+    super.removeElement();
+
+    if (this.#datepickerDateTo) {
+      this.#datepickerDateTo.destroy();
+      this.#datepickerDateTo = null;
+    }
+
+    if (this.#datepickerDateFrom) {
+      this.#datepickerDateFrom.destroy();
+      this.#datepickerDateFrom = null;
     }
   }
 
@@ -226,26 +240,31 @@ export default class NewPoint extends SmartView {
     });
   }
 
-  restoreHandlers = () => {
-    this.#setInnerHandler();
-    this.#setDatapicker();
-    this.setClickDefaultPoint(this._callback.defaultClick);
-    this.setFormSubmitHandler(this._callback.formSubmit);
-    this.setDeleteClickHandler(this._callback.deleteClick);
+  setFormSubmitHandler = (callback) => {
+    this._callback.formSubmit = callback;
+    this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
   }
 
-  removeElement = () => {
-    super.removeElement();
+  setDeleteClickHandler = (callback) => {
+    this._callback.deleteClick = callback;
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClickHandler);
+  }
 
-    if (this.#datepickerDateTo) {
-      this.#datepickerDateTo.destroy();
-      this.#datepickerDateTo = null;
-    }
+  setClickDefaultPoint = (callback) => {
+    this._callback.defaultClick = callback;
 
-    if (this.#datepickerDateFrom) {
-      this.#datepickerDateFrom.destroy();
-      this.#datepickerDateFrom = null;
+    if (this.element.querySelector('.event__rollup-btn')) {
+      this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#defaultStateClickHandler);
     }
+  }
+
+  #setInnerHandler = () => {
+    this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationToggleHandler);
+    this.element.querySelector('.event__type-list').addEventListener('click', this.#typeToggleHandler);
+    if (this.element.querySelector('.event__available-offers')) {
+      this.element.querySelector('.event__available-offers').addEventListener('change', this.#setClickOfferHandler);
+    }
+    this.element.querySelector('.event__input--price').addEventListener('change', this.#setPriceHandler);
   }
 
   #setDatapicker = () => {
@@ -280,6 +299,10 @@ export default class NewPoint extends SmartView {
       }
     );
   }
+
+  #setPriceHandler = (evt) => this.updateData({
+    basePrice: parseInt(evt.target.value, 10)
+  });
 
   #dateFromChangeHandler = ([userDate]) => {
     this.updateData({
@@ -340,27 +363,10 @@ export default class NewPoint extends SmartView {
     this._callback.formSubmit(this._data);
   }
 
-  setFormSubmitHandler = (callback) => {
-    this._callback.formSubmit = callback;
-    this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
-  }
-
-  setDeleteClickHandler = (callback) => {
-    this._callback.deleteClick = callback;
-    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClickHandler);
-  }
 
   #formDeleteClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.deleteClick(this._data);
-  }
-
-  setClickDefaultPoint = (callback) => {
-    this._callback.defaultClick = callback;
-
-    if (this.element.querySelector('.event__rollup-btn')) {
-      this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#defaultStateClickHandler);
-    }
   }
 
   #defaultStateClickHandler = () => {

@@ -43,13 +43,14 @@ export default class BoardPresenter {
     const point = this.#pointModel.point;
     const filteredTasks = filter[this.#filterType](point);
 
-    if (this.#currentSort) {
-      return filteredTasks.sort(Sort[this.#currentSort]);
-    }
-
-    return filteredTasks;
+    return this.#currentSort ? filteredTasks.sort(Sort[this.#currentSort]) : filteredTasks;
   }
 
+  createPoint = () => {
+    this.#currentSort = SortValue.SORT_DAY;
+    this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
+    this.#pointNewPresenter.init();
+  }
 
   #handleModelEvent = (updateType, data) => {
     switch (updateType) {
@@ -99,23 +100,6 @@ export default class BoardPresenter {
     }
   }
 
-  createPoint = () => {
-    this.#currentSort = SortValue.SORT_DAY;
-    this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
-    this.#pointNewPresenter.init();
-  }
-
-  #handleModeChange = () => {
-    this.#pointNewPresenter.destroy();
-    this.#pointPresenter.forEach((presenter) => presenter.resetView());
-  }
-
-  #handleSortTypeChange = (sortType) => {
-    this.#currentSort = sortType;
-    this.#clearBoard();
-    this.#renderBoard();
-  }
-
 
   #renderBoard = () => {
     this.#renderElementsBoard();
@@ -126,6 +110,7 @@ export default class BoardPresenter {
       this.#renderNoPoint();
       return;
     }
+
     this.#renderPath();
     this.#renderSort();
     this.#renderEventList();
@@ -157,5 +142,16 @@ export default class BoardPresenter {
   #renderNoPoint = () => {
     this.#noPointComponent = new NoPoint(this.#filterType);
     renderElement(this.#boardContainer, this.#noPointComponent);
+  }
+
+  #handleModeChange = () => {
+    this.#pointNewPresenter.destroy();
+    this.#pointPresenter.forEach((presenter) => presenter.resetView());
+  }
+
+  #handleSortTypeChange = (sortType) => {
+    this.#currentSort = sortType;
+    this.#clearBoard();
+    this.#renderBoard();
   }
 }

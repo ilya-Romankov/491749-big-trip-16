@@ -39,19 +39,17 @@ export const getTotalDuration = (points) => {
     return null;
   }
 
+  const sortPoints = [...points].sort(Sort[SortValue.SORT_DAY]);
 
-  const sortPoints = points.sort(Sort[SortValue.SORT_DAY]);
-  console.log(sortPoints)
+  const dateFrom = convertDate(sortPoints[0].dateFrom, DateFormat.MOUNTH_DAY);
+  let dateTo =  convertDate(sortPoints[0].dateTo, DateFormat.MOUNTH_DAY);
 
-  if (sortPoints.length === 1) {
-    return {
-      dateFrom: convertDate(sortPoints[0].dateFrom, DateFormat.MOUNTH_DAY),
-      dateTo: convertDate(sortPoints[0].dateTo, DateFormat.MOUNTH_DAY)
-    };
+  if (sortPoints.length > 1) {
+    dateTo = convertDate(sortPoints[sortPoints.length - 1].dateTo, DateFormat.MOUNTH_DAY);
   }
 
   return {
-    dateFrom: convertDate(sortPoints[0].dateFrom, DateFormat.MOUNTH_DAY),
-    dateTo: convertDate(sortPoints[sortPoints.length - 1].dateTo, DateFormat.MOUNTH_DAY)
+    dateFrom: dateFrom,
+    dateTo: dateTo
   };
 };

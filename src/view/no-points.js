@@ -8,7 +8,6 @@ const NoTasksTextType = {
 };
 
 const createNoPointTemplate = (filterType) => {
-
   const noTaskTextValue = NoTasksTextType[filterType];
 
   return (

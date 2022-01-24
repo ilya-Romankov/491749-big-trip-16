@@ -1,4 +1,6 @@
-export const POINT_COUNT = 5;
+export const POINT_COUNT = 2;
+
+export const NUMBER_FOR_FULL_PATH = 4;
 
 export const RenderPosition = {
   BEFORE_BEGIN: 'before',

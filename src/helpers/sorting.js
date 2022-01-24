@@ -4,7 +4,12 @@ import {getTotalPrice} from './total-price';
 
 const getSortDay = (firstPoint, secondPoint) => Math.sign(firstPoint.dateFrom - secondPoint.dateFrom);
 
-const getSortPrice = (firstPoint, secondPoint) => Math.sign(getTotalPrice(secondPoint.basePrice,secondPoint.offers.offers)  - getTotalPrice(firstPoint.basePrice,firstPoint.offers.offers));
+const getSortPrice = (firstPoint, secondPoint) => {
+  const totalPriceForFirstPoint = getTotalPrice(firstPoint.basePrice, firstPoint.offers.offers);
+  const totalPriceForSecondPoint = getTotalPrice(secondPoint.basePrice, secondPoint.offers.offers);
+
+  return Math.sign(totalPriceForSecondPoint - totalPriceForFirstPoint);
+};
 
 const getSortTime = (firstPoint, secondPoint) => {
   const firstTime = getDiffTime(firstPoint.dateFrom, firstPoint.dateTo);
