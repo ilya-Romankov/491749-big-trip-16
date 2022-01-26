@@ -13,7 +13,7 @@ const renderChart = (points, someCtx, title, label, time = false) => {
     plugins: [ChartDataLabels],
     type: 'horizontalBar',
     data: {
-      labels: [...points.keys()].map((type) => type),
+      labels: [...points.keys()].map((type) => type.toUpperCase()),
       datasets: [{
         data: [...points.values()],
         backgroundColor: '#ffffff',

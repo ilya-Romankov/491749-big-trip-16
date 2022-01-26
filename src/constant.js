@@ -1,4 +1,4 @@
-export const POINT_COUNT = 1;
+export const POINT_COUNT = 9;
 
 export const NUMBER_FOR_FULL_PATH = 4;
 
