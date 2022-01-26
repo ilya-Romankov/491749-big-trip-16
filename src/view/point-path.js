@@ -4,6 +4,7 @@ import { createTemplateOffers } from './offers.js';
 import AbstractView from './abstract';
 import { getDuration } from '../helpers/date';
 import { getTotalPrice } from '../helpers/total-price';
+import he from 'he';
 
 const isFavoriteCheck = (favorite) => favorite ? 'event__favorite-btn event__favorite-btn--active' : 'event__favorite-btn';
 const renderOffers = (offer) => {

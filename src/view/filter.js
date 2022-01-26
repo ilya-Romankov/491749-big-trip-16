@@ -1,25 +1,16 @@
 import AbstractView from './abstract';
 
-const createFilterTemplate = () => (
+const createFilterMenu = (filter, currentFilter) =>(
+  `<div class="trip-filters__filter">
+      <input id="filter-${filter.name}" class="trip-filters__filter-input  visually-hidden" type="radio"
+             name="trip-filter" value="${filter.type}" ${filter.type === currentFilter ? 'checked' : ''}>
+       <label class="trip-filters__filter-label" for="filter-${filter.name}">${filter.name}</label>
+    </div>
+`);
+
+const createFilterTemplate = (filters ,currentFilter) => (
   `<form class="trip-filters" action="#" method="get">
-    <div class="trip-filters__filter">
-      <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio"
-             name="trip-filter" value="all" checked="">
-        <label class="trip-filters__filter-label" for="filter-everything">Everything</label>
-    </div>
-
-    <div class="trip-filters__filter">
-      <input id="filter-future" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter"
-             value="future">
-        <label class="trip-filters__filter-label" for="filter-future">Future</label>
-    </div>
-
-    <div class="trip-filters__filter">
-      <input id="filter-past" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter"
-             value="past">
-        <label class="trip-filters__filter-label" for="filter-past">Past</label>
-    </div>
-
+    ${filters.map((filter) => createFilterMenu(filter, currentFilter)).join('')}
     <button class="visually-hidden" type="submit">Accept filter</button>
   </form>`
 );
@@ -34,7 +25,7 @@ export default class FilterSection extends AbstractView {
   }
 
   get template() {
-    return createFilterTemplate();
+    return createFilterTemplate(this.#filters, this.#currentFilter);
   }
 
   setFilterTypeChangeHandler = (callback) => {

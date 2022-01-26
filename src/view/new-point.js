@@ -4,7 +4,8 @@ import SmartView from './smart-view';
 import flatpickr from 'flatpickr';
 import dayjs from 'dayjs';
 import {TYPE} from '../constant';
-
+import he from 'he';
+import { RADIX } from '../constant';
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 
 
@@ -77,7 +78,7 @@ const createOfferTemplate = (offer, offers, isEdit) => {
                   <section class="event__section  event__section--offers">
                    <h3 class="event__section-title  event__section-title--offers">Offers</h3>
                    <div class="event__available-offers">
-                    ${(offer).map((item) => createOptionTemplate(item, offers, isEdit)).join('')}
+                    ${offer.map((item) => createOptionTemplate(item, offers, isEdit)).join('')}
                    </div>
 
            </section>`;
@@ -138,7 +139,7 @@ const createNewPointTemplate = (point, distinationAll, isEdit, offer) => {
                     <label class="event__label  event__type-output" for="event-destination-1">
                       ${type}
                     </label>
-                    <input class="event__input  event__input--destination" id="event-destination-1" required type="text" name="event-destination" value="${destination ? destination.name : ''}" list="destination-list-1">
+                    <input class="event__input  event__input--destination" id="event-destination-1" required type="text" name="event-destination" value="${destination ? he.encode(destination.name) : ''}" list="destination-list-1">
                     <datalist id="destination-list-1">
                       ${createCityList(distinationAll)}
                     </datalist>
@@ -157,7 +158,7 @@ const createNewPointTemplate = (point, distinationAll, isEdit, offer) => {
                       <span class="visually-hidden">Price</span>
                       €
                     </label>
-                    <input class="event__input  event__input--price" required id="event-price-1" type="number" name="event-price" value="${basePrice}">
+                    <input class="event__input  event__input--price" required id="event-price-1" type="number" name="event-price" value="${he.encode(basePrice.toString())}">
                   </div>
 
                   <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -300,9 +301,11 @@ export default class NewPoint extends SmartView {
     );
   }
 
-  #setPriceHandler = (evt) => this.updateData({
-    basePrice: parseInt(evt.target.value, 10)
-  });
+  #setPriceHandler = (evt) => {
+    this.updateData({
+      basePrice: parseInt(evt.target.value, RADIX)
+    });
+  };
 
   #dateFromChangeHandler = ([userDate]) => {
     this.updateData({

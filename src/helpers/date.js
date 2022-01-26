@@ -10,6 +10,28 @@ export const getDiffTime = (dateFrom, dateTo) => {
   return to.diff(from);
 };
 
+export const getDurationForMs = (msInput) => {
+  const ms = msInput;
+
+  let days = '';
+  let hours = '';
+  const minutes = `${convertDate(ms,'mm')}M`;
+
+  if (convertDate(ms, 'DD') !== '00') {
+    days = `${convertDate(ms, 'DD')}D`;
+  }
+
+  if (convertDate(ms,'hh') === '00' && days !== '') {
+    hours = '00H';
+  }
+
+  if (convertDate(ms,'hh') !== '00') {
+    hours = `${convertDate(ms,'hh')}H`;
+  }
+
+  return `${days} ${hours} ${minutes}`;
+};
+
 export const getDuration = (dateFrom, dateTo) => {
   const ms = getDiffTime(dateFrom, dateTo);
 
