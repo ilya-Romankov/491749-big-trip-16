@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { nanoid } from 'nanoid';
-import { CITY, DESCRIPTION, GeneratorsConfig } from '../constant';
 import { getRandomIndex, getRandomInteger } from '../helpers/random';
+import { CITY, DESCRIPTION, GeneratorsConfig } from '../constant';
 
 const getDate = () => {
   const dayGapFrom = getRandomInteger(GeneratorsConfig.START_DAY, GeneratorsConfig.SECONDARY_START_DAY);

@@ -1,5 +1,5 @@
 import AbstractView from './abstract';
-import {FilterType} from '../constant';
+import { FilterType } from '../constant';
 
 const NoTasksTextType = {
   [FilterType.ALL]: 'No point. Click Add Point',

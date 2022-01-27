@@ -1,6 +1,8 @@
-export const POINT_COUNT = 2;
+export const POINT_COUNT = 9;
 
 export const NUMBER_FOR_FULL_PATH = 4;
+
+export const RADIX = 10;
 
 export const RenderPosition = {
   BEFORE_BEGIN: 'before',
@@ -18,16 +20,6 @@ export const DESCRIPTION = [
   'Sed sed nisi sed augue convallis suscipit in sed felis.',
   'Aliquam erat volutpat.',
   'Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.'
-];
-
-export const OFFER = [
-  'Upgrade to a business class',
-  'Choose the radio station',
-  'Lorem ipsum dolor sit amet',
-  'Aenean commodo',
-  'Cum sociis natoque penatibus et',
-  'Donec quam felis, ultricies nec',
-  'Nulla consequat massa quis enim.'
 ];
 
 export const CITY = [
@@ -101,4 +93,31 @@ export const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+};
+
+export const MenuItem = {
+  ADD_NEW_POINT: 'ADD_NEW_PONT',
+  POINT: 'POINT',
+  STATISTICS: 'STATISTICS',
+};
+
+export const ChartName = {
+  MONEY: 'money',
+  TYPE: 'type',
+  TIME: 'time'
+};
+
+export const ChartParameters = {
+  [ChartName.MONEY]: {
+    TITLE: 'MONEY',
+    LABEL: '€'
+  },
+  [ChartName.TYPE]: {
+    TITLE: 'TYPE',
+    LABEL: 'x'
+  },
+  [ChartName.TIME]: {
+    TITLE: 'TIME',
+    LABEL: ''
+  },
 };

@@ -3,9 +3,9 @@ import NewPoint from '../view/new-point';
 import {KeyCode} from '../constant';
 import { removeOrAddKeyDown } from '../helpers/predicate';
 import { remove, renderElement, replace } from '../helpers/render';
+import { reOffer } from '../helpers/re-offer';
 import { Mode,UserAction, UpdateType } from '../constant';
 import { destinationAll } from '../mock/pathPoint';
-import { reOffer } from '../helpers/re-offer';
 
 export default class PointPresenter {
   #pointElement = null;
@@ -103,7 +103,7 @@ export default class PointPresenter {
   #handleFormSubmit = (update) => {
     this.#changeData(
       UserAction.UPDATE_POINT,
-      UpdateType.PATCH,
+      UpdateType.MINOR,
       update,
     );
 

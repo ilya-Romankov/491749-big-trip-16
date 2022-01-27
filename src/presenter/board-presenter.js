@@ -1,13 +1,13 @@
+import PointPresenter from './point-presenter';
+import PointNewPresenter from './new-point-presenter';
 import Sorts from '../view/sorts';
 import EventsList from '../view/eventsList';
 import NoPoint from '../view/no-points';
 import { renderElement, remove } from '../helpers/render';
-import PointPresenter from './point-presenter';
-import PointNewPresenter from './new-point-presenter';
+import {filter} from '../helpers/filter';
 import { Sort } from '../helpers/sorting';
 import {SortValue, UpdateType, UserAction, FilterType, RenderPosition} from '../constant';
-import {filter} from '../helpers/filter';
-import Path from '../view/path';
+
 
 export default class BoardPresenter {
   #boardContainer = null;
@@ -31,9 +31,9 @@ export default class BoardPresenter {
   }
 
   init = () => {
+    this.#pointNewPresenter = new PointNewPresenter(this.#eventListComponent, this.#handleViewAction);
     this.#pointModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
-    this.#pointNewPresenter = new PointNewPresenter(this.#eventListComponent, this.#handleViewAction);
 
     this.#renderBoard();
   }
@@ -46,10 +46,23 @@ export default class BoardPresenter {
     return this.#currentSort ? filteredTasks.sort(Sort[this.#currentSort]) : filteredTasks;
   }
 
-  createPoint = () => {
-    this.#currentSort = SortValue.SORT_DAY;
-    this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
-    this.#pointNewPresenter.init();
+  createPoint = (callback) => {
+    if (this.#noPointComponent) {
+      remove(this.#noPointComponent);
+      this.#renderEventList();
+    }
+
+    this.#pointNewPresenter.init(callback);
+  }
+
+  destroy = () => {
+    this.#clearBoard({resetSortType: true});
+
+    remove(this.#eventListComponent);
+
+    this.#pointModel.removeObserver(this.#handleModelEvent);
+    this.#filterModel.removeObserver(this.#handleModelEvent);
+
   }
 
   #handleModelEvent = (updateType, data) => {
@@ -111,26 +124,24 @@ export default class BoardPresenter {
       return;
     }
 
-    this.#renderPath();
-    this.#renderSort();
     this.#renderEventList();
+    this.#renderSort();
   }
 
   #renderSort = () => {
     this.#sortComponent = new Sorts(this.#currentSort);
     this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
-    renderElement(this.#boardContainer, this.#sortComponent);
+    renderElement(this.#boardContainer, this.#sortComponent, RenderPosition.AFTER_BEGIN);
   }
 
   #renderEventList = () => {
+    if (this.points.length === 0) {
+      renderElement(this.#boardContainer,  this.#eventListComponent);
+      return;
+    }
+
     renderElement(this.#boardContainer,  this.#eventListComponent);
     this.points.forEach((element) => this.#renderPoint(this.#eventListComponent, element, this.#handleModeChange));
-  }
-
-  #renderPath = () => {
-    this.#path = new Path(this.points);
-    const sitePathElement = document.querySelector('.trip-main');
-    renderElement(sitePathElement,this.#path, RenderPosition.AFTER_BEGIN);
   }
 
   #renderPoint = (pointList ,point, changeData) => {

@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
-import {DateFormat, SortValue} from '../constant';
 import {Sort} from './sorting';
+import {DateFormat, SortValue} from '../constant';
+
 export const convertDate = (date, format) => dayjs(date).format(format);
 
 export const getDiffTime = (dateFrom, dateTo) => {
@@ -8,6 +9,28 @@ export const getDiffTime = (dateFrom, dateTo) => {
   const to  = dayjs(dateTo);
 
   return to.diff(from);
+};
+
+export const getDurationForMs = (msInput) => {
+  const ms = msInput;
+
+  let days = '';
+  let hours = '';
+  const minutes = `${convertDate(ms,'mm')}M`;
+
+  if (convertDate(ms, 'DD') !== '00') {
+    days = `${convertDate(ms, 'DD')}D`;
+  }
+
+  if (convertDate(ms,'hh') === '00' && days !== '') {
+    hours = '00H';
+  }
+
+  if (convertDate(ms,'hh') !== '00') {
+    hours = `${convertDate(ms,'hh')}H`;
+  }
+
+  return `${days} ${hours} ${minutes}`;
 };
 
 export const getDuration = (dateFrom, dateTo) => {
