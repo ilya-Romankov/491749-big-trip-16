@@ -1,6 +1,6 @@
 import AbstractView from './abstract';
 
-const createFilterMenu = (filter, currentFilter) =>(
+const createFilterMenu = (filter, currentFilter) => (
   `<div class="trip-filters__filter">
       <input id="filter-${filter.name}" class="trip-filters__filter-input  visually-hidden" type="radio"
              name="trip-filter" value="${filter.type}" ${filter.type === currentFilter ? 'checked' : ''}>

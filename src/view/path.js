@@ -1,7 +1,7 @@
 import AbstractView from './abstract';
-import {getTotalPath} from '../helpers/total-path';
+import { getTotalPath} from '../helpers/total-path';
 import { getTotalPriceForAllPoints } from '../helpers/total-price';
-import {getTotalDuration} from '../helpers/date';
+import { getTotalDuration } from '../helpers/date';
 
 export const createPathTemplate = (path, price, duration) => (
   `<section class="trip-main__trip-info  trip-info">

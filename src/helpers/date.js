@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
-import {DateFormat, SortValue} from '../constant';
 import {Sort} from './sorting';
+import {DateFormat, SortValue} from '../constant';
+
 export const convertDate = (date, format) => dayjs(date).format(format);
 
 export const getDiffTime = (dateFrom, dateTo) => {

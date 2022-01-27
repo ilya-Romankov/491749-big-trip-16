@@ -1,6 +1,7 @@
-import { RenderPosition } from '../constant';
 import AbstractView from '../view/abstract';
 import { isChildClass } from './predicate';
+import { RenderPosition } from '../constant';
+
 
 export const renderElement = (container, element, place = RenderPosition.BEFORE_END) => {
   const parent = isChildClass(container, AbstractView)  ? container.element : container;

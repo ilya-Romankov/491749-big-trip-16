@@ -1,10 +1,9 @@
-import NewPoint from '../view/new-point';
 import {nanoid} from 'nanoid';
+import NewPoint from '../view/new-point';
 import {remove, renderElement} from '../helpers/render';
+import { reOffer } from '../helpers/re-offer';
 import {UserAction, UpdateType, RenderPosition} from '../constant';
 import {destinationAll} from '../mock/pathPoint';
-import { reOffer } from '../helpers/re-offer';
-
 
 export default class PointNewPresenter {
   #pointListContainer = null;

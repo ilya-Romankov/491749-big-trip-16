@@ -1,10 +1,10 @@
-import { convertDate } from '../helpers/date';
-import {DateFormat} from '../constant';
-import SmartView from './smart-view';
-import flatpickr from 'flatpickr';
 import dayjs from 'dayjs';
-import {TYPE} from '../constant';
+import flatpickr from 'flatpickr';
 import he from 'he';
+import SmartView from './smart-view';
+import { convertDate } from '../helpers/date';
+import { DateFormat } from '../constant';
+import { TYPE } from '../constant';
 import { RADIX } from '../constant';
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 
@@ -197,7 +197,6 @@ export default class NewPoint extends SmartView {
   get template() {
     return createNewPointTemplate(this._data, this.#destinations, this.#isEdit, this.#offers);
   }
-
 
   restoreHandlers = () => {
     this.#setInnerHandler();

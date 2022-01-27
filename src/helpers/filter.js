@@ -1,6 +1,7 @@
-import {FilterType} from '../constant';
 import { isPastPoint } from './date';
 import dayjs from 'dayjs';
+import {FilterType} from '../constant';
+
 
 export const filter = {
   [FilterType.ALL]: (points) => points.filter((point) => point),

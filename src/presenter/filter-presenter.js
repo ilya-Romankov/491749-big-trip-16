@@ -1,6 +1,6 @@
+import FilterSection from '../view/filter.js';
 import {renderElement, replace, remove} from '../helpers/render.js';
 import {FilterType, UpdateType} from '../constant';
-import FilterSection from '../view/filter.js';
 
 export default class FilterPresenter {
   #filterContainer = null;

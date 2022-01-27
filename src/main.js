@@ -1,16 +1,16 @@
 import Navigation from './view/navigation';
-import { renderElement } from './helpers/render';
-import { POINT_COUNT, MenuItem} from './constant';
-import {RenderPosition} from './constant';
-import { generatePoint } from './mock/pathPoint';
+import Path from './view/path';
+import StatisticsView from './view/statistic';
+import AddButton from './view/add-buttont';
 import BoardPresenter from './presenter/board-presenter';
+import FilterPresenter from './presenter/filter-presenter';
 import PointModel from './model/point-model';
 import FilterModel from './model/filter-model';
-import FilterPresenter from './presenter/filter-presenter';
-import StatisticsView from './view/statistic';
-import {remove} from './helpers/render';
-import Path from './view/path';
-import AddButton from './view/add-buttont';
+import { renderElement } from './helpers/render';
+import { remove } from './helpers/render';
+import { POINT_COUNT, MenuItem} from './constant';
+import { RenderPosition} from './constant';
+import { generatePoint } from './mock/pathPoint';
 
 const points = Array.from({length: POINT_COUNT}, generatePoint);
 

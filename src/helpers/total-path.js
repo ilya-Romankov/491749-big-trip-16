@@ -1,5 +1,5 @@
-import {SortValue} from '../constant';
 import { Sort } from './sorting';
+import { SortValue } from '../constant';
 import { NUMBER_FOR_FULL_PATH } from '../constant';
 
 export const getTotalPath = (points) => {

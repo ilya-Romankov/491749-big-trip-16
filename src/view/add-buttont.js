@@ -1,5 +1,5 @@
-import {MenuItem} from '../constant';
 import AbstractView from './abstract';
+import { MenuItem } from '../constant';
 
 const createAddButtonPointTemplate = () => (
   `<button class ="trip-main__event-add-btn btn btn--big btn--yellow" type ="button" data-item="${MenuItem.ADD_NEW_POINT}">
@@ -24,8 +24,8 @@ export default class AddButton extends AbstractView {
     if(!menuPoint.classList.contains('trip-tabs__btn--active')) {
       menuPoint.classList.add('trip-tabs__btn--active');
     }
-    menuStat.classList.remove('trip-tabs__btn--active');
 
+    menuStat.classList.remove('trip-tabs__btn--active');
   }
 
   #menuClickHandler = (evt) => {
@@ -33,10 +33,8 @@ export default class AddButton extends AbstractView {
       return false;
     }
 
-
     evt.preventDefault();
     this._callback.menuClick(evt.target.dataset.item);
     this.setMenuItem(evt.target.dataset.item);
-
   }
 }

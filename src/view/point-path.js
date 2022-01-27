@@ -1,10 +1,10 @@
-import { convertDate } from '../helpers/date';
-import { DateFormat } from '../constant';
-import { createTemplateOffers } from './offers.js';
+import he from 'he';
 import AbstractView from './abstract';
+import { convertDate } from '../helpers/date';
 import { getDuration } from '../helpers/date';
 import { getTotalPrice } from '../helpers/total-price';
-import he from 'he';
+import { DateFormat } from '../constant';
+import { createTemplateOffers } from './offers.js';
 
 const isFavoriteCheck = (favorite) => favorite ? 'event__favorite-btn event__favorite-btn--active' : 'event__favorite-btn';
 const renderOffers = (offer) => {

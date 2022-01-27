@@ -1,6 +1,7 @@
+import { getTotalPrice } from './total-price';
 import { getDiffTime } from './date';
 import { SortValue } from '../constant';
-import {getTotalPrice} from './total-price';
+
 
 const getSortDay = (firstPoint, secondPoint) => Math.sign(firstPoint.dateFrom - secondPoint.dateFrom);
 

@@ -1,12 +1,13 @@
+import PointPresenter from './point-presenter';
+import PointNewPresenter from './new-point-presenter';
 import Sorts from '../view/sorts';
 import EventsList from '../view/eventsList';
 import NoPoint from '../view/no-points';
 import { renderElement, remove } from '../helpers/render';
-import PointPresenter from './point-presenter';
-import PointNewPresenter from './new-point-presenter';
-import { Sort } from '../helpers/sorting';
-import {SortValue, UpdateType, UserAction, FilterType} from '../constant';
 import {filter} from '../helpers/filter';
+import { Sort } from '../helpers/sorting';
+import {SortValue, UpdateType, UserAction, FilterType, RenderPosition} from '../constant';
+
 
 export default class BoardPresenter {
   #boardContainer = null;
@@ -46,6 +47,11 @@ export default class BoardPresenter {
   }
 
   createPoint = (callback) => {
+    if (this.#noPointComponent) {
+      remove(this.#noPointComponent);
+      this.#renderEventList();
+    }
+
     this.#pointNewPresenter.init(callback);
   }
 
@@ -118,17 +124,22 @@ export default class BoardPresenter {
       return;
     }
 
-    this.#renderSort();
     this.#renderEventList();
+    this.#renderSort();
   }
 
   #renderSort = () => {
     this.#sortComponent = new Sorts(this.#currentSort);
     this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
-    renderElement(this.#boardContainer, this.#sortComponent);
+    renderElement(this.#boardContainer, this.#sortComponent, RenderPosition.AFTER_BEGIN);
   }
 
   #renderEventList = () => {
+    if (this.points.length === 0) {
+      renderElement(this.#boardContainer,  this.#eventListComponent);
+      return;
+    }
+
     renderElement(this.#boardContainer,  this.#eventListComponent);
     this.points.forEach((element) => this.#renderPoint(this.#eventListComponent, element, this.#handleModeChange));
   }

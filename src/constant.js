@@ -100,3 +100,24 @@ export const MenuItem = {
   POINT: 'POINT',
   STATISTICS: 'STATISTICS',
 };
+
+export const ChartName = {
+  MONEY: 'money',
+  TYPE: 'type',
+  TIME: 'time'
+};
+
+export const ChartParameters = {
+  [ChartName.MONEY]: {
+    TITLE: 'MONEY',
+    LABEL: '€'
+  },
+  [ChartName.TYPE]: {
+    TITLE: 'TYPE',
+    LABEL: 'x'
+  },
+  [ChartName.TIME]: {
+    TITLE: 'TIME',
+    LABEL: ''
+  },
+};
