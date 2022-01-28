@@ -3,17 +3,22 @@ import NewPoint from '../view/new-point';
 import {remove, renderElement} from '../helpers/render';
 import { reOffer } from '../helpers/re-offer';
 import {UserAction, UpdateType, RenderPosition} from '../constant';
-import {destinationAll} from '../mock/pathPoint';
 
 export default class PointNewPresenter {
   #pointListContainer = null;
   #changeData = null;
   #pointEditComponent = null;
   #destroyCallback = null;
+  #pointModel = null;
+  #offers = null;
+  #distanation = null;
 
-  constructor(pointListContainer, changeData) {
+  constructor(pointListContainer, changeData, pointModel) {
     this.#pointListContainer = pointListContainer;
     this.#changeData = changeData;
+    this.#pointModel = pointModel;
+    this.#offers = reOffer(this.#pointModel.offers);
+    this.#distanation = this.#pointModel.distanations;
   }
 
   init = (callback) => {
@@ -23,7 +28,7 @@ export default class PointNewPresenter {
       return;
     }
 
-    this.#pointEditComponent = new NewPoint(destinationAll, reOffer, false);
+    this.#pointEditComponent = new NewPoint(this.#distanation, this.#offers, false);
     this.#pointEditComponent.setFormSubmitHandler(this.#handleFormSubmit);
     this.#pointEditComponent.setDeleteClickHandler(this.#handleDeleteClick);
 

@@ -1,3 +1,1 @@
-import {offerAll} from '../mock/pathPoint';
-
-export const reOffer  = offerAll.reduce((acc,currentItem) => ({...acc, [currentItem.type]: currentItem.offers}), {});
+export const reOffer  = (offerAll) => offerAll.reduce((acc,currentItem) => ({...acc, [currentItem.type]: currentItem.offers}), {});

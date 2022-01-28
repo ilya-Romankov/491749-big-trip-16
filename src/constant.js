@@ -1,8 +1,17 @@
-export const POINT_COUNT = 9;
-
 export const NUMBER_FOR_FULL_PATH = 4;
 
 export const RADIX = 10;
+
+export const AUTHORIZATION = 'Basic assadkjaslkjd324324';
+
+export const END_POINT = 'https://16.ecmascript.pages.academy/big-trip/';
+
+export const Method = {
+  GET: 'GET',
+  PUT: 'PUT',
+  POST: 'POST',
+  DELETE: 'DELETE',
+};
 
 export const RenderPosition = {
   BEFORE_BEGIN: 'before',
@@ -10,26 +19,6 @@ export const RenderPosition = {
   BEFORE_END: 'append',
   AFTER_END: 'after',
 };
-
-export const DESCRIPTION = [
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  'Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra.',
-  'Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
-  'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.',
-  'Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.',
-  'Sed sed nisi sed augue convallis suscipit in sed felis.',
-  'Aliquam erat volutpat.',
-  'Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.'
-];
-
-export const CITY = [
-  'Moscow',
-  'Paris',
-  'Roma',
-  'Bangkok',
-  'Damascus',
-  'Madrid'
-];
 
 export const TYPE = [
   'Taxi',
@@ -42,17 +31,6 @@ export const TYPE = [
   'Sightseeing',
   'Restaurant'
 ];
-
-export const GeneratorsConfig = {
-  START_DAY: -5,
-  SECONDARY_START_DAY: 0,
-  SECONDARY_FINISH_DAY: 5,
-  END_DAY: 10,
-  START_PRICE: 10,
-  END_PRICE: 700,
-  START_PHOTO: 1,
-  END_PHOTO: 100
-};
 
 export const DateFormat = {
   FULL_DATE: 'DD/MM/YY hh:mm',
@@ -93,6 +71,7 @@ export const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT'
 };
 
 export const MenuItem = {
