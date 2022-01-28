@@ -1,6 +1,6 @@
 import ApiService from './api-service.js';
 import Navigation from './view/navigation';
-import Path from './view/path';
+// import Path from './view/path';
 import StatisticsView from './view/statistic';
 import AddButton from './view/add-buttont';
 import BoardPresenter from './presenter/board-presenter';
