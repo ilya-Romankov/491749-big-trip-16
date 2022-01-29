@@ -1,10 +1,10 @@
 import ApiService from './api-service.js';
 import Navigation from './view/navigation';
-// import Path from './view/path';
 import StatisticsView from './view/statistic';
 import AddButton from './view/add-buttont';
 import BoardPresenter from './presenter/board-presenter';
 import FilterPresenter from './presenter/filter-presenter';
+import HeaderPresenter from './presenter/header-presenter';
 import PointModel from './model/point-model';
 import FilterModel from './model/filter-model';
 import { renderElement } from './helpers/render';
@@ -26,13 +26,12 @@ renderElement(siteNavigationElement, navigation);
 const siteFiltersElement = body.querySelector('.trip-controls__filters');
 const siteBoard = body.querySelector('.trip-events');
 
+
+const sitePathElement = document.querySelector('.trip-main');
+
 const filterPresenter = new FilterPresenter(siteFiltersElement, filterModel, pointModel);
-const boardPresenter = new BoardPresenter(siteBoard, pointModel, filterModel);
-
-// const path = new Path(pointModel.point);
-// const sitePathElement = document.querySelector('.trip-main');
-// renderElement(sitePathElement,path, RenderPosition.AFTER_BEGIN);
-
+const headerPresenter = new HeaderPresenter(pointModel, sitePathElement);
+const boardPresenter = new BoardPresenter(siteBoard, pointModel, filterModel, headerPresenter);
 const btnAdd = new AddButton();
 const btnAddContainer = document.querySelector('.trip-main');
 renderElement(btnAddContainer, btnAdd);
@@ -69,6 +68,7 @@ btnAdd.setMenuClickHandler(handleSiteMenuClick);
 
 filterPresenter.init();
 boardPresenter.init();
+
 pointModel.init().finally(() => {
   navigation.setMenuClickHandler(handleSiteMenuClick);
   btnAdd.setMenuClickHandler(handleSiteMenuClick);

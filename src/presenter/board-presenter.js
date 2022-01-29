@@ -25,11 +25,13 @@ export default class BoardPresenter {
   #filterType = FilterType.ALL;
   #loadingComponent = new LoadingView()
   #isLoading = true;
+  #headerPresenter = null;
 
-  constructor(boardContainer, pointModel, filterModel) {
+  constructor(boardContainer, pointModel, filterModel, headerPresenter) {
     this.#boardContainer = boardContainer;
     this.#pointModel = pointModel;
     this.#filterModel = filterModel;
+    this.#headerPresenter = headerPresenter;
   }
 
   init = () => {
@@ -71,19 +73,23 @@ export default class BoardPresenter {
     switch (updateType) {
       case UpdateType.PATCH:
         this.#pointPresenter.get(data.id).init(data);
+        this.#renderHeader();
         break;
       case UpdateType.MINOR:
         this.#clearBoard({ resetSortType: true});
         this.#renderBoard();
+        this.#renderHeader();
         break;
       case UpdateType.MAJOR:
         this.#clearBoard({ resetSortType: true});
         this.#renderBoard();
+        this.#renderHeader();
         break;
       case UpdateType.INIT:
         this.#isLoading = false;
         remove(this.#loadingComponent);
         this.#renderBoard();
+        this.#renderHeader();
         break;
     }
   }
@@ -122,6 +128,10 @@ export default class BoardPresenter {
 
   #renderBoard = () => {
     this.#renderElementsBoard();
+  }
+
+  #renderHeader = () => {
+    this.#headerPresenter.init();
   }
 
   #renderElementsBoard = () => {
@@ -174,6 +184,10 @@ export default class BoardPresenter {
   }
 
   #handleSortTypeChange = (sortType) => {
+    if (this.#currentSort === sortType) {
+      return;
+    }
+
     this.#currentSort = sortType;
     this.#clearBoard();
     this.#renderBoard();

@@ -80,6 +80,22 @@ export default class ApiService {
     }
   }
 
+  #adaptToServer = (point) => {
+    const fieldsForDelete = ['dateFrom', 'dateTo', 'isFavorite', 'basePrice'];
+
+    const adaptedPoint = {...point,
+      'date_from': point.dateFrom instanceof Date ? point.dateFrom.toISOString() : null, // На сервере дата хранится в ISO формате
+      'date_to': point.dateTo instanceof Date ?  point.dateTo.toISOString() : null,
+      'is_favorite': point.isFavorite,
+      'base_price': point.basePrice,
+      'offers': point.offers.offers
+    };
+
+    fieldsForDelete.map((field) => delete adaptedPoint[field]);
+
+    return adaptedPoint;
+  }
+
   static parseResponse = (response) => response.json();
 
   static checkStatus = (response) => {
@@ -90,23 +106,5 @@ export default class ApiService {
 
   static catchError = (err) => {
     throw err;
-  }
-
-  #adaptToServer = (point) => {
-    const adaptedPoint = {...point,
-      'date_from': point.dateFrom instanceof Date ? point.dateFrom.toISOString() : null, // На сервере дата хранится в ISO формате
-      'date_to': point.dateTo instanceof Date ?  point.dateTo.toISOString() : null,
-      'is_favorite': false,
-      'base_price': point.basePrice,
-      'offers': point.offers.offers
-    };
-
-    // Ненужные ключи мы удаляем
-    delete adaptedPoint.dateFrom;
-    delete adaptedPoint.dateTo;
-    delete adaptedPoint.isFavorite;
-    delete adaptedPoint.basePrice;
-
-    return adaptedPoint;
   }
 }

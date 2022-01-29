@@ -43,7 +43,12 @@ export default class PointModel extends AbstractObservable {
     try {
       const response = await this.#apiService.updatePoint(update);
       const updatedPoint = this.#adaptToClient(response);
-      this.#points.splice(updatedPoint, 1, update);
+
+      this.#points = [
+        ...this.#points.slice(0, index),
+        updatedPoint,
+        ...this.#points.slice(index + 1),
+      ];
       this._notify(updateType, update);
     } catch (err) {
       throw new Error('Can\'t update task');
@@ -53,6 +58,7 @@ export default class PointModel extends AbstractObservable {
   addPoint = async (updateType, update) => {
     try {
       const response = await this.#apiService.addPoint(update);
+
       const newPoint = this.#adaptToClient(response);
       this.#points = [newPoint, ...this.#points];
       this._notify(updateType, newPoint);
@@ -69,6 +75,7 @@ export default class PointModel extends AbstractObservable {
     }
     try {
       await this.#apiService.deletePoint(update);
+
       this.#points = [
         ...this.#points.slice(0, index),
         ...this.#points.slice(index + 1),
@@ -80,8 +87,10 @@ export default class PointModel extends AbstractObservable {
   }
 
   #adaptToClient = (point) => {
+    const fieldsForDelete = ['date_from', 'date_to', 'is_favorite', 'base_price'];
+
     const adaptedPoint = {...point,
-      basePrice: point['base_price'], // На клиенте дата хранится как экземпляр Date
+      basePrice: point['base_price'],
       dateFrom: new Date(point['date_from']),
       dateTo: new Date(point['date_to']),
       isFavorite: point['is_favorite'],
@@ -91,10 +100,7 @@ export default class PointModel extends AbstractObservable {
       }
     };
 
-    delete adaptedPoint['base_price'];
-    delete adaptedPoint['date_from'];
-    delete adaptedPoint['date_to'];
-    delete adaptedPoint['is_favorite'];
+    fieldsForDelete.map((field) => delete adaptedPoint[field]);
 
     return adaptedPoint;
   }

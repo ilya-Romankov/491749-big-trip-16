@@ -17,7 +17,7 @@ export const createPathTemplate = (path, price, duration) => (
   </section>`
 );
 
-export default class Path extends AbstractView {
+export default class Header extends AbstractView {
   #totalAllPointsPrice = null;
   #totalAllPointPath = null;
   #totalDuration = null;

@@ -25,50 +25,42 @@ const createImgTemplate = (src) => (
   `<img class="event__photo" src="${src}" alt="Event photo">`
 );
 
-const createDestinationTemplate = (destination) => {
-  if (destination === null || !destination) {
-    return '';
-  }
-
-  return `<section class="event__section  event__section--destination">
-    <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-    <p class="event__destination-description">${destination.description}</p>
-
-    <div class="event__photos-container">
-      <div class="event__photos-tape">
-       ${destination.pictures.map((item) => createImgTemplate(item.src)).join('')}
-      </div>
-    </div>
-  </section>`;
-};
+const createDestinationTemplate = (destination) => destination === null || !destination ?
+  '' :
+  `<section class="event__section  event__section--destination">
+             <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+             <p class="event__destination-description">${destination.description}</p>
+             <div class="event__photos-container">
+               <div class="event__photos-tape">
+               ${destination.pictures.map((item) => createImgTemplate(item.src)).join('')}
+               </div>
+            </div>
+         </section>`;
 
 const createOptionTemplate = (obj, offers) => {
   const isChecked = offers.find((offer) => offer.id === obj.id);
 
-  return (` <div class="event__offer-selector">
-      <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-${obj.id}" type="checkbox"
-             name="event-offer-luggage" ${isChecked ? 'checked' : ''} value="${obj.title}">
-        <label class="event__offer-label" for="event-offer-luggage-${obj.id}">
-          <span class="event__offer-title">${obj.title}</span>
-          +€&nbsp;
-          <span class="event__offer-price">${obj.price}</span>
-        </label>
-    </div>`
-  );
+  return `<div class="event__offer-selector">
+             <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-${obj.id}" type="checkbox"
+                     name="event-offer-luggage" ${isChecked ? 'checked' : ''} value="${obj.title}">
+             <label class="event__offer-label" for="event-offer-luggage-${obj.id}">
+               <span class="event__offer-title">${obj.title}</span>
+                  +€&nbsp;
+               <span class="event__offer-price">${obj.price}</span>
+             </label>
+         </div>`;
 };
 
-const createOfferTemplate = (offer, offers) => {
-  if (offer === null || !offer) {
-    return '';
-  }
-  return `<section class="event__details">
-            <section class="event__section  event__section--offers">
-              <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-              <div class="event__available-offers">
-               ${offer.map((item) => createOptionTemplate(item, offers)).join('')}
-              </div>
-          </section>`;
-};
+const createOfferTemplate = (offer, offers) => offer === null || !offer ?
+  '' :
+  `<section class="event__details">
+    <section class="event__section  event__section--offers">
+      <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+      <div class="event__available-offers">
+        ${offer.map((item) => createOptionTemplate(item, offers)).join('')}
+      </div>
+    </section>
+  </section>`;
 
 const createTypeTemplate = (type, isChecked = false) => (`
         <div class="event__type-item">
@@ -88,7 +80,7 @@ const createIsEditBtn = (isEdit) => {
 
   return (
     `<button class="event__rollup-btn" type="button">
-        <span class="visually-hidden">Open event</span>
+       <span class="visually-hidden">Open event</span>
      </button>`);
 };
 
