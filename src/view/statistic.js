@@ -3,7 +3,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import SmartView from './smart-view.js';
 import { getDurationForMs} from '../helpers/date';
 import { createPriceStats,createTypeStats,createTimeStats } from '../helpers/stattistic';
-import { RADIX, ChartName,  ChartParameters} from '../constant';
+import { RADIX, ChartName,  ChartParameters, BAR_HEIGHT, BAR_RATIO} from '../constant';
 
 const createCanvasTemplate = (canvasName) => (
   `<div class="statistics__item ">
@@ -18,9 +18,9 @@ const createStatsTemplate = () => (
   </section>`
 );
 
-const BAR_HEIGHT = 70;
+
 const renderChart = (points, someCtx, title, label, time = false) => {
-  someCtx.height = BAR_HEIGHT * 5;
+  someCtx.height = BAR_HEIGHT * BAR_RATIO;
   return new Chart(someCtx, {
     plugins: [ChartDataLabels],
     type: 'horizontalBar',
