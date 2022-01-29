@@ -2,20 +2,20 @@ import dayjs from 'dayjs';
 import flatpickr from 'flatpickr';
 import he from 'he';
 import SmartView from './smart-view';
-import { convertDate } from '../helpers/date';
-import { DateFormat } from '../constant';
-import { TYPE } from '../constant';
-import { RADIX } from '../constant';
+import {convertDate} from '../helpers/date';
+import {DateFormat} from '../constant';
+import {TYPE} from '../constant';
+import {RADIX} from '../constant';
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 
 
 const BLANK_POINT = {
-  basePrice: 0,
+  basePrice: 1,
   dateFrom: dayjs().toDate(),
   dateTo: dayjs().toDate(),
   destination: '',
   offers: {
-    type:'taxi',
+    type: 'taxi',
     offers: []
   },
   type: 'taxi'
@@ -25,37 +25,42 @@ const createImgTemplate = (src) => (
   `<img class="event__photo" src="${src}" alt="Event photo">`
 );
 
-const createDestinationTemplate = (destination) => {
-  if (destination === null || !destination) {
-    return '';
-  }
-
-  return `<section class="event__section  event__section--destination">
-    <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-    <p class="event__destination-description">${destination.description}</p>
-
-    <div class="event__photos-container">
-      <div class="event__photos-tape">
-       ${destination.pictures.map((item) => createImgTemplate(item.src)).join('')}
-      </div>
-    </div>
-  </section>`;
-};
+const createDestinationTemplate = (destination) => destination === null || !destination ?
+  '' :
+  `<section class="event__section  event__section--destination">
+             <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+             <p class="event__destination-description">${destination.description}</p>
+             <div class="event__photos-container">
+               <div class="event__photos-tape">
+               ${destination.pictures.map((item) => createImgTemplate(item.src)).join('')}
+               </div>
+            </div>
+         </section>`;
 
 const createOptionTemplate = (obj, offers) => {
-  const isChecked = offers.includes(obj);
+  const isChecked = offers.find((offer) => offer.id === obj.id);
 
-  return (` <div class="event__offer-selector">
-      <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-${obj.id}" type="checkbox"
-             name="event-offer-luggage" ${isChecked ? 'checked': ''} value="${obj.title}">
-        <label class="event__offer-label" for="event-offer-luggage-${obj.id}">
-          <span class="event__offer-title">${obj.title}</span>
-          +€&nbsp;
-          <span class="event__offer-price">${obj.price}</span>
-        </label>
-    </div>`
-  );
+  return `<div class="event__offer-selector">
+             <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-${obj.id}" type="checkbox"
+                     name="event-offer-luggage" ${isChecked ? 'checked' : ''} value="${obj.title}">
+             <label class="event__offer-label" for="event-offer-luggage-${obj.id}">
+               <span class="event__offer-title">${obj.title}</span>
+                  +€&nbsp;
+               <span class="event__offer-price">${obj.price}</span>
+             </label>
+         </div>`;
 };
+
+const createOfferTemplate = (offer, offers) => offer === null || !offer ?
+  '' :
+  `<section class="event__details">
+    <section class="event__section  event__section--offers">
+      <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+      <div class="event__available-offers">
+        ${offer.map((item) => createOptionTemplate(item, offers)).join('')}
+      </div>
+    </section>
+  </section>`;
 
 const createTypeTemplate = (type, isChecked = false) => (`
         <div class="event__type-item">
@@ -65,24 +70,8 @@ const createTypeTemplate = (type, isChecked = false) => (`
   `);
 
 const createToggleTemplate = (typeChecked) => (`
-    ${TYPE.map((type) => typeChecked === type ? createTypeTemplate(type, true) :  createTypeTemplate(type)).join('')}
+    ${TYPE.map((type) => typeChecked === type ? createTypeTemplate(type, true) : createTypeTemplate(type)).join('')}
   `);
-
-
-const createOfferTemplate = (offer, offers, isEdit) => {
-  if (offer === null || !offer) {
-    return '';
-  }
-
-  return `<section class="event__details">
-                  <section class="event__section  event__section--offers">
-                   <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-                   <div class="event__available-offers">
-                    ${offer.map((item) => createOptionTemplate(item, offers, isEdit)).join('')}
-                   </div>
-
-           </section>`;
-};
 
 const createIsEditBtn = (isEdit) => {
   if (isEdit === false || isEdit === null) {
@@ -91,14 +80,14 @@ const createIsEditBtn = (isEdit) => {
 
   return (
     `<button class="event__rollup-btn" type="button">
-        <span class="visually-hidden">Open event</span>
+       <span class="visually-hidden">Open event</span>
      </button>`);
 };
 
 const createDeleteOrCancelBtn = (isEdit) => {
-  const textContenet = isEdit  ? 'Delete' : 'Cancel';
+  const textContenet = isEdit ? 'Delete' : 'Cancel';
 
-  return( `
+  return (`
     <button class="event__reset-btn" type="reset">${textContenet}</button>
   `);
 };
@@ -277,7 +266,7 @@ export default class NewPoint extends SmartView {
       this.element.querySelector('.event__input--dateFrom'),
       {
         enableTime: true,
-        defaultDate: this._data.dateFrom ,
+        defaultDate: this._data.dateFrom,
         dateFormat: DateFormat.DATE_EDIT_POINT,
         maxDate: this._data.dateTo,
         onChange: this.#dateFromChangeHandler,

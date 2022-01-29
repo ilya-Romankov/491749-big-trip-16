@@ -1,21 +1,18 @@
+import ApiService from './api-service.js';
 import Navigation from './view/navigation';
-import Path from './view/path';
 import StatisticsView from './view/statistic';
 import AddButton from './view/add-buttont';
 import BoardPresenter from './presenter/board-presenter';
 import FilterPresenter from './presenter/filter-presenter';
+import HeaderPresenter from './presenter/header-presenter';
 import PointModel from './model/point-model';
 import FilterModel from './model/filter-model';
 import { renderElement } from './helpers/render';
 import { remove } from './helpers/render';
-import { POINT_COUNT, MenuItem} from './constant';
+import { MenuItem, AUTHORIZATION, END_POINT } from './constant';
 import { RenderPosition} from './constant';
-import { generatePoint } from './mock/pathPoint';
 
-const points = Array.from({length: POINT_COUNT}, generatePoint);
-
-const pointModel = new PointModel();
-pointModel.point = points;
+const pointModel = new PointModel(new ApiService(END_POINT, AUTHORIZATION));
 
 const filterModel = new FilterModel();
 
@@ -29,13 +26,12 @@ renderElement(siteNavigationElement, navigation);
 const siteFiltersElement = body.querySelector('.trip-controls__filters');
 const siteBoard = body.querySelector('.trip-events');
 
-const filterPresenter = new FilterPresenter(siteFiltersElement, filterModel, pointModel);
-const boardPresenter = new BoardPresenter(siteBoard, pointModel, filterModel);
 
-const path = new Path(pointModel.point);
 const sitePathElement = document.querySelector('.trip-main');
-renderElement(sitePathElement,path, RenderPosition.AFTER_BEGIN);
 
+const filterPresenter = new FilterPresenter(siteFiltersElement, filterModel, pointModel);
+const headerPresenter = new HeaderPresenter(pointModel, sitePathElement);
+const boardPresenter = new BoardPresenter(siteBoard, pointModel, filterModel, headerPresenter);
 const btnAdd = new AddButton();
 const btnAddContainer = document.querySelector('.trip-main');
 renderElement(btnAddContainer, btnAdd);
@@ -72,5 +68,10 @@ btnAdd.setMenuClickHandler(handleSiteMenuClick);
 
 filterPresenter.init();
 boardPresenter.init();
+
+pointModel.init().finally(() => {
+  navigation.setMenuClickHandler(handleSiteMenuClick);
+  btnAdd.setMenuClickHandler(handleSiteMenuClick);
+});
 
 

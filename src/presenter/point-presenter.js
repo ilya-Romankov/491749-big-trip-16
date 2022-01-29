@@ -5,7 +5,6 @@ import { removeOrAddKeyDown } from '../helpers/predicate';
 import { remove, renderElement, replace } from '../helpers/render';
 import { reOffer } from '../helpers/re-offer';
 import { Mode,UserAction, UpdateType } from '../constant';
-import { destinationAll } from '../mock/pathPoint';
 
 export default class PointPresenter {
   #pointElement = null;
@@ -17,17 +16,19 @@ export default class PointPresenter {
   #mode = Mode.DEFAULT;
   #destination = null;
   #offer = null;
+  #pointModel = null;
 
-  constructor(container, changeData, changeMode) {
+  constructor(container, changeData, changeMode, pointModel) {
     this.#pointContainer = container;
     this.#changeData = changeData;
     this.#changeMode = changeMode;
+    this.#pointModel = pointModel;
   }
 
   init = (point) => {
     this.#point = point;
-    this.#destination = destinationAll;
-    this.#offer = reOffer;
+    this.#destination = this.#pointModel.distanations;
+    this.#offer = reOffer(this.#pointModel.offers);
 
     const prevPointElement = this.#pointElement;
     const prevPointEditElement = this.#newPointElement;
