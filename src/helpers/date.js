@@ -73,6 +73,6 @@ export const getTotalDuration = (points) => {
 
   return {
     dateFrom: dateFrom,
-    dateTo: dateTo
+    dateTo: dateTo,
   };
 };

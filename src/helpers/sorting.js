@@ -22,5 +22,5 @@ const getSortTime = (firstPoint, secondPoint) => {
 export const Sort = {
   [SortValue.SORT_DAY]: getSortDay,
   [SortValue.SORT_PRICE]: getSortPrice,
-  [SortValue.SORT_TIME]: getSortTime
+  [SortValue.SORT_TIME]: getSortTime,
 };
