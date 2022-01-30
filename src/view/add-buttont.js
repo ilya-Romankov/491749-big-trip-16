@@ -3,7 +3,7 @@ import { MenuItem } from '../constant';
 
 const createAddButtonPointTemplate = () => (
   `<button class ="trip-main__event-add-btn btn btn--big btn--yellow" type ="button" data-item="${MenuItem.ADD_NEW_POINT}">
-       New event
+     New event
    </button>`
 );
 

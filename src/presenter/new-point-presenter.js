@@ -1,4 +1,3 @@
-import {nanoid} from 'nanoid';
 import NewPoint from '../view/new-point';
 import {remove, renderElement} from '../helpers/render';
 import { reOffer } from '../helpers/re-offer';
@@ -35,6 +34,7 @@ export default class PointNewPresenter {
     renderElement(this.#pointListContainer, this.#pointEditComponent, RenderPosition.AFTER_BEGIN);
 
     document.addEventListener('keydown', this.#escKeyDownHandler);
+    document.querySelector('.trip-main__event-add-btn').disabled = true;
   }
 
   destroy = () => {
@@ -48,6 +48,29 @@ export default class PointNewPresenter {
     this.#pointEditComponent = null;
 
     document.removeEventListener('keydown', this.#escKeyDownHandler);
+    document.querySelector('.trip-main__event-add-btn').disabled = false;
+  }
+
+  setSaving = () => {
+    this.#pointEditComponent.updateData({
+      isDisabled: true,
+      isSaving: true,
+    });
+
+    document.querySelector('.trip-main__event-add-btn').disabled = false;
+  }
+
+  setAborting = () => {
+    const resetFormState = () => {
+      this.#pointEditComponent.updateData({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    this.#pointEditComponent.shake(resetFormState);
+    document.querySelector('.trip-main__event-add-btn').disabled = true;
   }
 
 
@@ -55,9 +78,8 @@ export default class PointNewPresenter {
     this.#changeData(
       UserAction.ADD_POINT,
       UpdateType.MINOR,
-      {id: nanoid(), ...point},
+      point
     );
-    this.destroy();
   }
 
   #handleDeleteClick = () => {

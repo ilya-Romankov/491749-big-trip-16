@@ -3,8 +3,8 @@ import {MenuItem} from '../constant';
 
 const createNavigationTemplate = () => (
   `<nav class="trip-controls__trip-tabs  trip-tabs">
-     <a class="trip-tabs__btn trip-tabs__btn--active" data-item="${MenuItem.POINT}" href="#">Table</a>
-     <a class="trip-tabs__btn" data-item="${MenuItem.STATISTICS}" href="#" disable ="">Stats</a>
+    <a class="trip-tabs__btn trip-tabs__btn--active" data-item="${MenuItem.POINT}" href="#">Table</a>
+    <a class="trip-tabs__btn" data-item="${MenuItem.STATISTICS}" href="#">Stats</a>
   </nav>`
 );
 
