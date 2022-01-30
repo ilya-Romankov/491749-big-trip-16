@@ -55,7 +55,7 @@ export const getDuration = (dateFrom, dateTo) => {
   return `${days} ${hours} ${minutes}`;
 };
 
-export const  isPastPoint = (currentDate, dateFromPoint) => dayjs().isAfter(dateFromPoint);
+export const  isPastPoint = (currentDate, dateFromPoint) => dayjs(currentDate).isAfter(dateFromPoint);
 
 export const getTotalDuration = (points) => {
   if (points === null || points.length === 0) {

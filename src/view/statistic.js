@@ -21,6 +21,7 @@ const createStatsTemplate = () => (
 
 const renderChart = (points, someCtx, title, label, time = false) => {
   someCtx.height = BAR_HEIGHT * BAR_RATIO;
+
   return new Chart(someCtx, {
     plugins: [ChartDataLabels],
     type: 'horizontalBar',

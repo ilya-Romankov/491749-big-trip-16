@@ -1,5 +1,5 @@
 import AbstractObservable from '../helpers/abstract-observable.js';
-import { UpdateType } from '../constant';
+import {UpdateType, FIELDS_FOR_DELETE_POINT} from '../constant';
 
 export default class PointModel extends AbstractObservable {
   #points = [];
@@ -68,18 +68,10 @@ export default class PointModel extends AbstractObservable {
   }
 
   deletePoint = async (updateType, update) => {
-    const index = this.#points.findIndex((point) => point.id === update.id);
-
-    if (index === -1) {
-      throw new Error('Can\'t delete unexisting task');
-    }
     try {
       await this.#apiService.deletePoint(update);
 
-      this.#points = [
-        ...this.#points.slice(0, index),
-        ...this.#points.slice(index + 1),
-      ];
+      this.#points = this.#points.filter((point) => point.id !== update.id);
       this._notify(updateType);
     } catch (err) {
       throw new Error('Can\'t delete task');
@@ -87,7 +79,6 @@ export default class PointModel extends AbstractObservable {
   }
 
   #adaptToClient = (point) => {
-    const fieldsForDelete = ['date_from', 'date_to', 'is_favorite', 'base_price'];
 
     const adaptedPoint = {...point,
       basePrice: point['base_price'],
@@ -100,7 +91,7 @@ export default class PointModel extends AbstractObservable {
       }
     };
 
-    fieldsForDelete.map((field) => delete adaptedPoint[field]);
+    FIELDS_FOR_DELETE_POINT.forEach((field) => delete adaptedPoint[field]);
 
     return adaptedPoint;
   }

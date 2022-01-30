@@ -36,7 +36,7 @@ export default class FilterPresenter {
     const filters = this.filters;
     const prevFilterComponent = this.#filterComponent;
 
-    this.#filterComponent = new FilterSection(filters, this.#filterModel.filter);
+    this.#filterComponent = new FilterSection(filters, this.#filterModel.filter, this.#pointModel.point);
     this.#filterComponent.setFilterTypeChangeHandler(this.#handleFilterTypeChange);
 
     this.#pointModel.addObserver(this.#handleModelEvent);

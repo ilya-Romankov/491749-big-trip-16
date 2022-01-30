@@ -6,9 +6,19 @@ export const AUTHORIZATION = 'Basic assadkjaslkjd324324';
 
 export const END_POINT = 'https://16.ecmascript.pages.academy/big-trip/';
 
-export const BAR_HEIGHT = 100;
+export const SHAKE_ANIMATION_TIMEOUT = 600;
 
+export const BAR_HEIGHT = 100;
 export const BAR_RATIO = 5;
+
+export const FIELDS_FOR_DELETE_API = ['dateFrom', 'dateTo', 'isFavorite', 'basePrice'];
+export const FIELDS_FOR_DELETE_POINT = ['date_from', 'date_to', 'is_favorite', 'base_price'];
+
+export const State = {
+  SAVING: 'SAVING',
+  DELETING: 'DELETING',
+  ABORTING: 'ABORTING',
+};
 
 export const Method = {
   GET: 'GET',

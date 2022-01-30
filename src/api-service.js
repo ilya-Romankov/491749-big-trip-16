@@ -1,4 +1,4 @@
-import { Method } from './constant';
+import { Method, FIELDS_FOR_DELETE_API } from './constant';
 
 export default class ApiService {
   #endPoint = null;
@@ -81,17 +81,16 @@ export default class ApiService {
   }
 
   #adaptToServer = (point) => {
-    const fieldsForDelete = ['dateFrom', 'dateTo', 'isFavorite', 'basePrice'];
 
     const adaptedPoint = {...point,
-      'date_from': point.dateFrom instanceof Date ? point.dateFrom.toISOString() : null, // На сервере дата хранится в ISO формате
+      'date_from': point.dateFrom instanceof Date ? point.dateFrom.toISOString() : null,
       'date_to': point.dateTo instanceof Date ?  point.dateTo.toISOString() : null,
-      'is_favorite': point.isFavorite,
+      'is_favorite': point.isFavorite ? point.isFavorite : false,
       'base_price': point.basePrice,
       'offers': point.offers.offers
     };
 
-    fieldsForDelete.map((field) => delete adaptedPoint[field]);
+    FIELDS_FOR_DELETE_API.forEach((field) => delete adaptedPoint[field]);
 
     return adaptedPoint;
   }

@@ -7,7 +7,7 @@ import LoadingView from '../view/loading';
 import { renderElement, remove } from '../helpers/render';
 import {filter} from '../helpers/filter';
 import { Sort } from '../helpers/sorting';
-import {SortValue, UpdateType, UserAction, FilterType, RenderPosition} from '../constant';
+import {SortValue, UpdateType, UserAction, FilterType, RenderPosition, State} from '../constant';
 
 
 export default class BoardPresenter {
@@ -94,16 +94,31 @@ export default class BoardPresenter {
     }
   }
 
-  #handleViewAction = (actionType, updateType, update) => {
+  #handleViewAction = async (actionType, updateType, update) => {
     switch (actionType) {
       case UserAction.UPDATE_POINT:
-        this.#pointModel.updatePoint(updateType, update);
+        this.#pointPresenter.get(update.id).setViewState(State.SAVING);
+        try {
+          await this.#pointModel.updatePoint(updateType, update);
+        } catch (err) {
+          this.#pointPresenter.get(update.id).setViewState(State.ABORTING);
+        }
         break;
       case UserAction.ADD_POINT:
-        this.#pointModel.addPoint(updateType, update);
+        this.#pointNewPresenter.setSaving();
+        try {
+          await this.#pointModel.addPoint(updateType, update);
+        } catch (err) {
+          this.#pointNewPresenter.setAborting();
+        }
         break;
       case UserAction.DELETE_POINT:
-        this.#pointModel.deletePoint(updateType, update);
+        this.#pointPresenter.get(update.id).setViewState(State.DELETING);
+        try {
+          await this.#pointModel.deletePoint(updateType, update);
+        } catch (err) {
+          this.#pointPresenter.get(update.id).setViewState(State.ABORTING);
+        }
         break;
     }
   }

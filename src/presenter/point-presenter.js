@@ -4,7 +4,7 @@ import {KeyCode} from '../constant';
 import { removeOrAddKeyDown } from '../helpers/predicate';
 import { remove, renderElement, replace } from '../helpers/render';
 import { reOffer } from '../helpers/re-offer';
-import { Mode,UserAction, UpdateType } from '../constant';
+import { Mode,UserAction, UpdateType, State } from '../constant';
 
 export default class PointPresenter {
   #pointElement = null;
@@ -60,6 +60,7 @@ export default class PointPresenter {
 
     if (this.#mode === Mode.EDITING) {
       replace(this.#newPointElement, prevPointEditElement);
+      this.#mode = Mode.DEFAULT;
     }
 
     remove(prevPointElement);
@@ -78,6 +79,36 @@ export default class PointPresenter {
     }
   }
 
+  setViewState = (state) => {
+
+    const resetFormState = () => {
+      this.#newPointElement.updateData({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    switch (state) {
+      case State.SAVING:
+        this.#newPointElement.updateData({
+          isDisabled: true,
+          isSaving: true,
+        });
+        break;
+      case State.DELETING:
+        this.#newPointElement.updateData({
+          isDisabled: true,
+          isDeleting: true,
+        });
+        break;
+      case State.ABORTING:
+        this.#newPointElement.shake(resetFormState);
+        this.#pointElement.shake(resetFormState);
+        break;
+    }
+  }
+
   #escKeyDown = (evt) => {
     if (evt.keyCode === KeyCode.ESC) {
       evt.preventDefault();
@@ -92,6 +123,7 @@ export default class PointPresenter {
     removeOrAddKeyDown(this.#escKeyDown, false);
     this.#mode = Mode.DEFAULT;
     this.init(this.#point);
+    document.querySelector('.trip-main__event-add-btn').disabled = false;
   };
 
   #switchToFormEdit = () => {
@@ -99,6 +131,7 @@ export default class PointPresenter {
     removeOrAddKeyDown(this.#escKeyDown);
     this.#changeMode();
     this.#mode = Mode.EDITING;
+    document.querySelector('.trip-main__event-add-btn').disabled = true;
   };
 
   #handleFormSubmit = (update) => {
@@ -108,7 +141,7 @@ export default class PointPresenter {
       update,
     );
 
-    this.#switchToPathPoint();
+    document.querySelector('.trip-main__event-add-btn').disabled = false;
   };
 
   #handleFavoriteClick = () => {
@@ -125,5 +158,7 @@ export default class PointPresenter {
       UpdateType.MINOR,
       point,
     );
+
+    document.querySelector('.trip-main__event-add-btn').disabled = false;
   }
 }
