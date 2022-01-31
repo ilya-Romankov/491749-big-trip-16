@@ -1,4 +1,4 @@
-import AbstractView from './abstract';
+import AbstractView from './abstract-view';
 import { filter } from '../helpers/filter';
 
 const createFilterMenu = (filterSingle, currentFilter, points) => {

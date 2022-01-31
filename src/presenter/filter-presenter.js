@@ -1,4 +1,4 @@
-import FilterSection from '../view/filter.js';
+import FilterSection from '../view/filter-section.js';
 import {renderElement, replace, remove} from '../helpers/render.js';
 import {FilterType, UpdateType} from '../constant';
 

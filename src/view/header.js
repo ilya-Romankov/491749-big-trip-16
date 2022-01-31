@@ -1,4 +1,4 @@
-import AbstractView from './abstract';
+import AbstractView from './abstract-view';
 import { getTotalPath} from '../helpers/total-path';
 import { getTotalPriceForAllPoints } from '../helpers/total-price';
 import { getTotalDuration } from '../helpers/date';

@@ -1,9 +1,9 @@
 import PointPresenter from './point-presenter';
-import PointNewPresenter from './new-point-presenter';
-import Sorts from '../view/sorts';
-import EventsList from '../view/eventsList';
-import NoPoint from '../view/no-points';
-import LoadingView from '../view/loading';
+import PointNewPresenter from './point-new-presenter';
+import Sorts from '../view/sort-view';
+import EventsList from '../view/events-list';
+import NoPoint from '../view/no-point';
+import Loading from '../view/loading';
 import { renderElement, remove } from '../helpers/render';
 import {filter} from '../helpers/filter';
 import { Sort } from '../helpers/sorting';
@@ -23,7 +23,7 @@ export default class BoardPresenter {
   #pointModel = null;
   #filterModel = null;
   #filterType = FilterType.ALL;
-  #loadingComponent = new LoadingView()
+  #loadingComponent = new Loading()
   #isLoading = true;
   #headerPresenter = null;
 

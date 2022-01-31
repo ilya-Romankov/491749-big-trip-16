@@ -1,4 +1,4 @@
-import AbstractView from '../view/abstract';
+import AbstractView from '../view/abstract-view';
 import { isChildClass } from './predicate';
 import { RenderPosition } from '../constant';
 

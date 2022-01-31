@@ -1,4 +1,4 @@
-import AbstractView from './abstract';
+import AbstractView from './abstract-view';
 import { MenuItem } from '../constant';
 
 const createAddButtonPointTemplate = () => (

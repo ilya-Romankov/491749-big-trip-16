@@ -89,7 +89,7 @@ const renderChart = (points, someCtx, title, label, time = false) => {
   });
 };
 
-export default class StatsView extends SmartView {
+export default class Statistic extends SmartView {
   constructor(point) {
     super();
 

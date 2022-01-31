@@ -1,4 +1,4 @@
-import AbstractView from './abstract';
+import AbstractView from './abstract-view';
 import { SortValue } from '../constant';
 
 export const createSortTemplate = (currentSort ) => (
@@ -27,7 +27,7 @@ export const createSortTemplate = (currentSort ) => (
   </form>`
 );
 
-export default class Sort extends AbstractView {
+export default class SortView extends AbstractView {
   #currentSort = null;
 
   get template() {
